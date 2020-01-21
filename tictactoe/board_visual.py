@@ -13,7 +13,6 @@ class BoardVisual:
         # self.create_board()
         self.game = game
         # im = Image.open("Black.png")
-        colourimages_list = []
         # screen = pygame.display.set_mode((700, 700))
 
     def create_window(self, screen):
@@ -39,7 +38,6 @@ class BoardVisual:
     def place_fields(self):
         print("here it creates the fields")
         # im = Image.open(r"C:\Users\gomes\PycharmProjects\ColourTicTacToe\ColourImages\Black.png")
-        imtest = pygame.image.load('Black.png')
         # screen = pygame.display.set_mode((700, 700))
         # screen.blit(imtest, (0, 0))
         # pygame.display.flip()
@@ -58,16 +56,17 @@ class BoardVisual:
         board_im = pygame.image.load('boardimage.png')
         emptysqr_im = pygame.image.load('emptybox.png')
         colourimages_list = [black_im, blue_im, cyan_im, green_im, magenta_im, red_im, white_im, yellow_im]
+        positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250), (450, 250), (50, 450), (250, 450)]
         random.shuffle(colourimages_list)
-        screen.blit(colourimages_list[0], (50, 50))
-        screen.blit(colourimages_list[1], (250, 50))
-        screen.blit(colourimages_list[2], (450, 50))
-        screen.blit(colourimages_list[3], (50, 250))
-        screen.blit(colourimages_list[4], (250, 250))
-        screen.blit(colourimages_list[5], (450, 250))
-        screen.blit(colourimages_list[6], (50, 450))
-        screen.blit(colourimages_list[7], (250, 450))
-
+        screen.blit(colourimages_list[0], positions_list[0])
+        screen.blit(colourimages_list[1], positions_list[1])
+        screen.blit(colourimages_list[2], positions_list[2])
+        screen.blit(colourimages_list[3], positions_list[3])
+        screen.blit(colourimages_list[4], positions_list[4])
+        screen.blit(colourimages_list[5], positions_list[5])
+        screen.blit(colourimages_list[6], positions_list[6])
+        screen.blit(colourimages_list[7], positions_list[7])
+        # add all of the sets of x and y to a list "positions_list = [()]
         screen.blit(emptysqr_im, (450, 450))
 
         screen.blit(board_im, (45, 50))
