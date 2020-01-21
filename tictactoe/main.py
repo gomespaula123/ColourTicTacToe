@@ -21,8 +21,10 @@ class Game:
         print("prints draw board")
         # self.screen.fill([255, 255, 255])
         self.board_visual.create_window()
+        self.board_visual.create_fields()
         # self.board_visual.create_window()
         pygame.display.flip()
+
 
 '''
 background_colour = (255, 255, 255)

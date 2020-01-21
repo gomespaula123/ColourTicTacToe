@@ -21,3 +21,7 @@ class BoardVisual:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+    def create_fields(self):
+        print("here it creates the fields")
+
