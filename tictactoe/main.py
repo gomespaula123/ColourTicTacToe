@@ -18,7 +18,8 @@ class Game:
     def draw_board(self):
         print("prints draw board")
         # self.screen.fill([255, 255, 255])
-        self.board_visual.create_window()
+        screen = pygame.display.set_mode((700, 700))
+        self.board_visual.create_window(screen)
         self.board_visual.place_fields()
         # self.board_visual.create_window()
         pygame.display.flip()
