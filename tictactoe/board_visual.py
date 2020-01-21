@@ -1,32 +1,25 @@
 # visual for board
 import pygame
 from PIL import Image, ImageDraw
-import glob
 import random
+import cv2
+from tictactoe.human_player import HumanPlayer
 
 
 class BoardVisual:
 
     def __init__(self, game):
         print("this exists")
-        # self.row_length = int(math.sqrt(len(self.board)))
-        # self.create_board()
         self.game = game
-        # im = Image.open("Black.png")
+        self.human_player = HumanPlayer(self.game)
         # screen = pygame.display.set_mode((700, 700))
 
     def create_window(self, screen):
         print("it has been called for once")
         background_colour = (255, 255, 255)
-        # black_im = pygame.image.load('Black.png')
-        # green_im = pygame.image.load('Green.png')
-        # blue_im = pygame.image.load('Blue.png')
         # screen = pygame.display.set_mode((700, 700))
         screen.fill(background_colour)
         self.getcolour_images(screen)
-        # screen.blit(black_im, (50, 50))
-        # screen.blit(green_im, (250, 50))
-        # screen.blit(blue_im, (450, 50))
 
         pygame.display.flip()
         running = True
@@ -55,8 +48,9 @@ class BoardVisual:
         yellow_im = pygame.image.load('Yellow.png')
         board_im = pygame.image.load('boardimage.png')
         emptysqr_im = pygame.image.load('emptybox.png')
+        O_mark = pygame.image.load('Circle.png')
         colourimages_list = [black_im, blue_im, cyan_im, green_im, magenta_im, red_im, white_im, yellow_im]
-        positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250), (450, 250), (50, 450), (250, 450)]
+        positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250), (450, 250), (50, 450), (250, 450), (450, 450)]
         random.shuffle(colourimages_list)
         screen.blit(colourimages_list[0], positions_list[0])
         screen.blit(colourimages_list[1], positions_list[1])
@@ -67,9 +61,14 @@ class BoardVisual:
         screen.blit(colourimages_list[6], positions_list[6])
         screen.blit(colourimages_list[7], positions_list[7])
         # add all of the sets of x and y to a list "positions_list = [()]
-        screen.blit(emptysqr_im, (450, 450))
-
+        screen.blit(O_mark, positions_list[8])
         screen.blit(board_im, (45, 50))
+        # self.human_player.get_webcaminput()
+        self.human_player.webcam_setup()
+
+
+
+
 
 
 

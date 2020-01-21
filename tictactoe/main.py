@@ -12,14 +12,14 @@ class Game:
     def __init__(self):
         self.game = None
         pygame.init()
-        self.board_visual = BoardVisual(self.game)
         self.human_player = HumanPlayer(self.game)
+        self.board_visual = BoardVisual(self.game)
 
 
     def game_loop(self):
         print("prints game loop")
         self.draw_board()
-        self.get_webcaminput()
+
 
 
     def draw_board(self):
@@ -33,9 +33,9 @@ class Game:
         pygame.display.flip()
 
 
-    def get_webcaminput(self):
-        print("get webcaminput")
-        self.human_player.webcam_setup()
+    # def get_webcaminput(self):
+        # print("get webcaminput")
+        # self.human_player.webcam_setup()
 
 '''
 background_colour = (255, 255, 255)
