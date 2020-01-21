@@ -1,18 +1,32 @@
 import pygame
-
+from tictactoe.board_visual import BoardVisual
 # Reference note: http://www.petercollingridge.co.uk/tutorials/pygame-physics-simulation/creating-pygame-window/
 
 
-# class Game:
+class Game:
 
-    # def __init__(self):
-        # pygame.init()
+    def __init__(self):
 
+        self.game = None
+        pygame.init()
+        # BoardVisual.create_board()
+        # self.screen = pygame.display.set_mode((700, 700))
+        self.board_visual = BoardVisual(self.game)
 
-background_colour = (255,255,255)
-(width, height) = (300, 200)
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Tutorial 1')
+    def game_loop(self):
+        print("prints game loop")
+        self.draw_board()
+
+    def draw_board(self):
+        print("prints draw board")
+        # self.screen.fill([255, 255, 255])
+        self.board_visual.create_window()
+        # self.board_visual.create_window()
+        pygame.display.flip()
+
+'''
+background_colour = (255, 255, 255)
+screen = pygame.display.set_mode((700, 700))
 screen.fill(background_colour)
 pygame.display.flip()
 running = True
@@ -20,3 +34,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+'''
+
+if __name__ == "__main__":
+    game = Game()
+    while True:
+        game.game_loop()
