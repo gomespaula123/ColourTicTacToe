@@ -9,8 +9,6 @@ class Game:
 
         self.game = None
         pygame.init()
-        # BoardVisual.create_board()
-        # self.screen = pygame.display.set_mode((700, 700))
         self.board_visual = BoardVisual(self.game)
 
     def game_loop(self):
@@ -21,7 +19,7 @@ class Game:
         print("prints draw board")
         # self.screen.fill([255, 255, 255])
         self.board_visual.create_window()
-        self.board_visual.create_fields()
+        self.board_visual.place_fields()
         # self.board_visual.create_window()
         pygame.display.flip()
 

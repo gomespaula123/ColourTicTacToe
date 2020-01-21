@@ -1,6 +1,10 @@
 # ColourTicTacToe
 Final project programming
 
+REFERENCES:
+# for creating the screen:
+# Reference note: http://www.petercollingridge.co.uk/tutorials/pygame-physics-simulation/creating-pygame-window/
+
 here are the calmlywriter notes:
 - default class with the position
 
