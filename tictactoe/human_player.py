@@ -42,7 +42,7 @@ class HumanPlayer:
                 # cv2.destroyAllWindows()
                 #  self.game.draw_board()
                 # self.main.draw_board
-                self.boardvisual.getcolour_images(self.screen)
+                self.boardvisual.getcolour_images()
                 # self.boardvisual.create_window(self.screen)
                 # self.main.get_webcaminput(self)
 
