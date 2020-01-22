@@ -47,6 +47,8 @@ class BoardVisual:
         # random.shuffle(self.colourimages_list)
         self.change_positions()
         self.boardanalysis.get_positions()
+        self.boardanalysis.check_lose()
+        self.boardanalysis.check_win()
 
         for i in range(0, 9):
             if self.positions_status[i] == 0:

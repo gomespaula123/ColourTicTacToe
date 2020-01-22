@@ -14,7 +14,7 @@ class HumanPlayer:
         # print("what do I put here")
         self.screen = None
         self.game = game
-        # self.boardvisual = boardvisual # test
+        # self.boaranalysis = boardanalysis # test
         # self.board_visual = BoardVisual(self.game)
         # self.main = Game()
         self.video_capture = cv2.VideoCapture(0)
@@ -52,32 +52,67 @@ class HumanPlayer:
 
             # check input,
             elif k == ord('q'):  # position 0
-                self.boardvisual.positions_status[0] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[0] == 0:
+                    self.boardvisual.positions_status[0] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
+
             elif k == ord('w'):  # position 1
-                self.boardvisual.positions_status[1] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[1] == 0:
+                    self.boardvisual.positions_status[1] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
+
             elif k == ord('e'):  # position 2
-                self.boardvisual.positions_status[2] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[2] == 0:
+                    self.boardvisual.positions_status[2] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
+
             elif k == ord('a'):  # position 3
-                self.boardvisual.positions_status[3] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[3] == 0:
+                    self.boardvisual.positions_status[3] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
+
             elif k == ord('s'):  # position 4
-                self.boardvisual.positions_status[4] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[4] == 0:
+                    self.boardvisual.positions_status[4] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
+
             elif k == ord('d'):  # position 5
-                self.boardvisual.positions_status[5] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[5] == 0:
+                    self.boardvisual.positions_status[5] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
+
             elif k == ord('z'):  # position 6
-                self.boardvisual.positions_status[6] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[6] == 0:
+                    self.boardvisual.positions_status[6] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
+
             elif k == ord('x'):  # position 7
-                self.boardvisual.positions_status[7] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[7] == 0:
+                    self.boardvisual.positions_status[7] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
+
             elif k == ord('c'):  # position 8
-                self.boardvisual.positions_status[8] = 2
-                self.boardvisual.getcolour_images()
+                if self.boardvisual.positions_status[8] == 0:
+                    self.boardvisual.positions_status[8] = 2
+                    self.boardvisual.getcolour_images()
+                else:
+                    print("try another move")
 
     # When everything is done, release the capture
         self.video_capture.release()
