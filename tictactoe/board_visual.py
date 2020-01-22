@@ -6,11 +6,10 @@ import random
 
 class BoardVisual:
 
-    def __init__(self, game, humanplayer):
+    def __init__(self, game, humanplayer, boardanalysis):
         self.game = game
         self.humanplayer = humanplayer  # test
-        # self.boardanalysis = boardanalysis
-        # self.boardanalysis = boardanalysis
+        self.boardanalysis = boardanalysis
         self.positions_status = [0, 0, 1, 0, 0, 0, 0, 0, 1]
 
 
@@ -47,6 +46,7 @@ class BoardVisual:
         positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250), (450, 250), (50, 450), (250, 450), (450, 450)]
         # random.shuffle(self.colourimages_list)
         self.change_positions()
+        self.boardanalysis.get_positions()
 
         for i in range(0, 9):
             if self.positions_status[i] == 0:

@@ -49,6 +49,8 @@ class HumanPlayer:
                 self.boardvisual.getcolour_images()
                 # self.boardvisual.create_window(self.screen)
                 # self.main.get_webcaminput(self)
+
+            # check input,
             elif k == ord('q'):  # position 0
                 self.boardvisual.positions_status[0] = 2
                 self.boardvisual.getcolour_images()
