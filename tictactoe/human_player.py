@@ -43,6 +43,7 @@ class HumanPlayer:
                 #  self.game.draw_board()
                 # self.main.draw_board
                 self.boardvisual.getcolour_images(self.screen)
+                # self.boardvisual.create_window(self.screen)
                 # self.main.get_webcaminput(self)
 
     # When everything is done, release the capture
