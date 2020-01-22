@@ -18,6 +18,7 @@ class BoardVisual:
         # print("it has been called for once")
         background_colour = (255, 255, 255)
         # screen = pygame.display.set_mode((700, 700))
+        self.screen = screen
         screen.fill(background_colour)
         self.getcolour_images(screen)
 
@@ -52,18 +53,19 @@ class BoardVisual:
         colourimages_list = [black_im, blue_im, cyan_im, green_im, magenta_im, red_im, white_im, yellow_im]
         positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250), (450, 250), (50, 450), (250, 450), (450, 450)]
         random.shuffle(colourimages_list)
-        screen.blit(colourimages_list[0], positions_list[0])
-        screen.blit(colourimages_list[1], positions_list[1])
-        screen.blit(colourimages_list[2], positions_list[2])
-        screen.blit(colourimages_list[3], positions_list[3])
-        screen.blit(colourimages_list[4], positions_list[4])
-        screen.blit(colourimages_list[5], positions_list[5])
-        screen.blit(colourimages_list[6], positions_list[6])
-        screen.blit(colourimages_list[7], positions_list[7])
+        self.screen.blit(colourimages_list[0], positions_list[0])
+        self.screen.blit(colourimages_list[1], positions_list[1])
+        self.screen.blit(colourimages_list[2], positions_list[2])
+        self.screen.blit(colourimages_list[3], positions_list[3])
+        self.screen.blit(colourimages_list[4], positions_list[4])
+        self.screen.blit(colourimages_list[5], positions_list[5])
+        self.screen.blit(colourimages_list[6], positions_list[6])
+        self.screen.blit(colourimages_list[7], positions_list[7])
         # add all of the sets of x and y to a list "positions_list = [()]
-        screen.blit(O_mark, positions_list[8])
-        screen.blit(board_im, (45, 50))
+        self.screen.blit(O_mark, positions_list[8])
+        self.screen.blit(board_im, (45, 50))
         # self.human_player.get_webcaminput()
+        print("it draws the board before going to webcam")
         self.humanplayer.webcam_setup()
         # self.humanplayer.test_function()
 

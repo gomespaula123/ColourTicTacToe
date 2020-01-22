@@ -17,7 +17,6 @@ class Game:
         self.human_player = HumanPlayer(self.game)
         self.board_visual = BoardVisual(self.game, self.human_player)
         self.human_player.set_board(self.board_visual)
-
         # self.board_visual = BoardVisual(self.game, self.human_player)
         self.draw_board()
 
