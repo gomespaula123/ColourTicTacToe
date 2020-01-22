@@ -3,9 +3,7 @@ import cv2
 from tictactoe.board_visual import BoardVisual
 from tictactoe.human_player import HumanPlayer
 
-
 # Reference note: http://www.petercollingridge.co.uk/tutorials/pygame-physics-simulation/creating-pygame-window/
-
 
 class Game:
 
@@ -19,8 +17,6 @@ class Game:
     def game_loop(self):
         print("prints game loop")
         self.draw_board()
-
-
 
     def draw_board(self):
         print("prints draw board")

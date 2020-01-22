@@ -6,8 +6,8 @@ import cv2
 class HumanPlayer:
 
     def __init__(self, game):
-        print("what do I put here")
-        self.img_counter = 0 # image counter needed???
+        # print("what do I put here")
+        # self.game = game
         self.video_capture = cv2.VideoCapture(0)
 
     def webcam_setup(self):
@@ -19,7 +19,13 @@ class HumanPlayer:
     # Display the resulting frame
     # cv2.imshow(window_name, image)
             cv2.imshow('Windowname', frame)
-            print("does this happen??????????????????????????????")
+            # print("does this happen??????????????????????????????")
+
+            if k % 256 == 27:  # ESC Pressed
+                break
+            elif k % 256 == 32:  # SPACE pressed
+                print("something")
+                # self.game.draw_board()
 
     # When everything is done, release the capture
         self.video_capture.release()

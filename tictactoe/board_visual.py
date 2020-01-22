@@ -9,13 +9,13 @@ from tictactoe.human_player import HumanPlayer
 class BoardVisual:
 
     def __init__(self, game):
-        print("this exists")
+        # print("this exists")
         self.game = game
         self.human_player = HumanPlayer(self.game)
         # screen = pygame.display.set_mode((700, 700))
 
     def create_window(self, screen):
-        print("it has been called for once")
+        # print("it has been called for once")
         background_colour = (255, 255, 255)
         # screen = pygame.display.set_mode((700, 700))
         screen.fill(background_colour)
@@ -28,15 +28,15 @@ class BoardVisual:
                 if event.type == pygame.QUIT:
                     running = False
 
-    def place_fields(self):
-        print("here it creates the fields")
+    # def place_fields(self):
+        # print("here it creates the fields")
         # im = Image.open(r"C:\Users\gomes\PycharmProjects\ColourTicTacToe\ColourImages\Black.png")
         # screen = pygame.display.set_mode((700, 700))
         # screen.blit(imtest, (0, 0))
         # pygame.display.flip()
 
     def getcolour_images(self, screen):
-        print("it does the thing now food")
+        # print("it does the thing now food")
         # loading all the images:
         black_im = pygame.image.load('Black.png')
         blue_im = pygame.image.load('Blue.png')
@@ -65,11 +65,6 @@ class BoardVisual:
         screen.blit(board_im, (45, 50))
         # self.human_player.get_webcaminput()
         self.human_player.webcam_setup()
-
-
-
-
-
 
 
 
