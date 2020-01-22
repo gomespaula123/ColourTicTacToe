@@ -2,16 +2,16 @@
 import pygame
 from PIL import Image, ImageDraw
 import random
-import cv2
-from tictactoe.human_player import HumanPlayer
+# from tictactoe import human_player
 
 
 class BoardVisual:
 
-    def __init__(self, game):
+    def __init__(self, game, humanplayer):
         # print("this exists")
         self.game = game
-        self.human_player = HumanPlayer(self.game)
+        # self.human_player = HumanPlayer(self.game)
+        self.humanplayer = humanplayer  # test
         # screen = pygame.display.set_mode((700, 700))
 
     def create_window(self, screen):
@@ -64,7 +64,9 @@ class BoardVisual:
         screen.blit(O_mark, positions_list[8])
         screen.blit(board_im, (45, 50))
         # self.human_player.get_webcaminput()
-        self.human_player.webcam_setup()
+        self.humanplayer.webcam_setup()
+        # self.humanplayer.test_function()
+
 
 
 
