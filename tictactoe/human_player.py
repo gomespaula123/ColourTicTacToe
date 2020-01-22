@@ -22,6 +22,7 @@ class HumanPlayer:
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
 
+
     def webcam_setup(self):
         while True:
             # Capture frame-by-frame
@@ -42,9 +43,39 @@ class HumanPlayer:
                 # cv2.destroyAllWindows()
                 #  self.game.draw_board()
                 # self.main.draw_board
+                # this is a test :)
+
+                # end of test
                 self.boardvisual.getcolour_images()
                 # self.boardvisual.create_window(self.screen)
                 # self.main.get_webcaminput(self)
+            elif k == ord('q'):  # position 0
+                self.boardvisual.positions_status[0] = 2
+                self.boardvisual.getcolour_images()
+            elif k == ord('w'):  # position 1
+                self.boardvisual.positions_status[1] = 2
+                self.boardvisual.getcolour_images()
+            elif k == ord('e'):  # position 2
+                self.boardvisual.positions_status[2] = 2
+                self.boardvisual.getcolour_images()
+            elif k == ord('a'):  # position 3
+                self.boardvisual.positions_status[3] = 2
+                self.boardvisual.getcolour_images()
+            elif k == ord('s'):  # position 4
+                self.boardvisual.positions_status[4] = 2
+                self.boardvisual.getcolour_images()
+            elif k == ord('d'):  # position 5
+                self.boardvisual.positions_status[5] = 2
+                self.boardvisual.getcolour_images()
+            elif k == ord('z'):  # position 6
+                self.boardvisual.positions_status[6] = 2
+                self.boardvisual.getcolour_images()
+            elif k == ord('x'):  # position 7
+                self.boardvisual.positions_status[7] = 2
+                self.boardvisual.getcolour_images()
+            elif k == ord('c'):  # position 8
+                self.boardvisual.positions_status[8] = 2
+                self.boardvisual.getcolour_images()
 
     # When everything is done, release the capture
         self.video_capture.release()
