@@ -4,7 +4,8 @@ class AIPlayer:
 
     def __init__(self, game):
         # print("what do I put here")
-        self.mark = "X"
+        self.next_board = None
+        self.mark = 2
         self.game = game
         self.memo = dict()
         self.counter = 0
@@ -37,7 +38,6 @@ class AIPlayer:
                 print("best move", best_move)
                 return best_move
 
-
     def calculate_next_move(self, current_board):
         print("calculate_next_move")
         # for every possible move, add a pair of a min_max score and the move to a list scores.
@@ -60,20 +60,25 @@ class AIPlayer:
 
     def min_max(self, current_board, move, mark):
         # depth = 8
-        # the  next  board  is a (deep) copy of the  current  board
 
-        print("did a thing, line 68")
-        next_board = current_board.deep_copy()
+        # the  next  board  is a (deep) copy of the  current  board
+        # next_board = current_board.deep_copy()
+        next_board = current_board.copy()
+        print("it copied the board, 68")
+        # next_board = list(current_board).deep_copy()
+        # self.get_possible_moves(current_board)
 
         # place  the  move  for  the  mark on the  next  board --> put best move there
-        next_board.place_move(move, mark)
+        # original here: next_board.place_move(move, mark)
+        self.place_move(next_board, move, mark)
+        # next_board.place_move(move, mark)
 
         # check if the next board (next_board.board) is in the dictionary, if it is, use that value
-        if tuple(next_board.board) in self.memo:
-            return self.memo[(tuple(next_board.board))]
+        if tuple(next_board) in self.memo:
+            return self.memo[(tuple(next_board))]
 
         # if it is a win  return  10 --> 100
-        if next_board.check_win(mark):
+        if next_board.check_win():
             return 100
         # if the  board  is full  return 0
         if next_board.board_full():
@@ -150,6 +155,15 @@ class AIPlayer:
                 # print("it got added")
                 # print(i)
         # for self.boardvisual.positions_status in possible_moves:
-             #print i
+                # print i
         print(possible_moves)
         return possible_moves
+
+    def place_move(self, next_board, move, mark):
+        print("called place move")
+        # self.possible_moves[next_move] = 2
+        # self.next_board[move] = 2
+        # mark = 2
+        next_board[move] = mark
+        print(next_board[move])
+        # original here: self.board[move] = mark

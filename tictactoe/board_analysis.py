@@ -42,7 +42,7 @@ class BoardAnalysis:
             lose = True
             print(lose)
             print("you lost")
-            self.quit_game()
+            # self.quit_game()
 
     def check_win(self):
         win = False
@@ -68,7 +68,16 @@ class BoardAnalysis:
             win = True
             print(win)
             print("you won")
-            self.quit_game()
+            # self.quit_game()
+
+    def check_full(self):
+        full = False
+        if 0 not in self.boardvisual.positions_status:
+            full = True
+            print(full)
+            print("board is full")
+
+
 
     def quit_game(self):
         # self.video_capture.release()
