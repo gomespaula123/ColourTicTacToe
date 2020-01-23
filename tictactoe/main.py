@@ -5,6 +5,8 @@ import cv2
 from tictactoe.board_visual import BoardVisual
 from tictactoe.human_player import HumanPlayer
 from tictactoe.board_analysis import BoardAnalysis
+from tictactoe.ai_player import AIPlayer
+
 
 # Reference note: http://www.petercollingridge.co.uk/tutorials/pygame-physics-simulation/creating-pygame-window/
 
@@ -16,11 +18,13 @@ class Game:
         self.game = None
         pygame.init()
         self.human_player = HumanPlayer(self.game)
+        self.ai_player = AIPlayer(self.game)
         self.board_analysis = BoardAnalysis(self.game)
         # self.board_analysis = BoardAnalysis(self.game, self.board_visual)
-        self.board_visual = BoardVisual(self.game, self.human_player, self.board_analysis)
+        self.board_visual = BoardVisual(self.game, self.human_player, self.board_analysis, self.ai_player)
         self.board_analysis.set_board(self.board_visual)
         self.human_player.set_board(self.board_visual)
+        self.ai_player.set_board(self.board_visual)
         # self.board_visual = BoardVisual(self.game, self.human_player)
         self.draw_board()
 

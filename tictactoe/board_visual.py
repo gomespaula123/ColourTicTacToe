@@ -6,9 +6,10 @@ import random
 
 class BoardVisual:
 
-    def __init__(self, game, humanplayer, boardanalysis):
+    def __init__(self, game, humanplayer, boardanalysis, aiplayer):
         self.game = game
         self.humanplayer = humanplayer  # test
+        self.aiplayer = aiplayer
         self.boardanalysis = boardanalysis
         self.positions_status = [0, 0, 1, 0, 0, 0, 0, 0, 1]
 
@@ -61,6 +62,7 @@ class BoardVisual:
         self.screen.blit(board_im, (45, 50))
         pygame.display.update()
         # self.boardanalysis.test_function1()
+        self.aiplayer.testai_playerfunction()
         self.humanplayer.webcam_setup()
         # send the list of positions status to board analysis
 
