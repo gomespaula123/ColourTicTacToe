@@ -2,6 +2,7 @@ import cv2
 # from tictactoe.board_visual import BoardVisual
 # from tictactoe.main import Game
 # from tictactoe import main
+import numpy as np
     
 # reference the tutorial !!!!!!!!!!!!!!!!! https://towardsdatascience.com/https-medium-com-dilan-jay-face-detection-model-on-webcam-using-python-72b382699ee9
 
@@ -18,6 +19,7 @@ class HumanPlayer:
         # self.board_visual = BoardVisual(self.game)
         # self.main = Game()
         self.video_capture = cv2.VideoCapture(0)
+        self.red_found = False
 
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
@@ -27,6 +29,7 @@ class HumanPlayer:
         while True:
             # Capture frame-by-frame
             ret, frame = self.video_capture.read()
+            self.look_for_colours(frame)
             k = cv2.waitKey(1)
 
     # Display the resulting frame
@@ -86,12 +89,14 @@ class HumanPlayer:
                 else:
                     print("try another move")
 
-            elif k == ord('d'):  # position 5
+            elif self.red_found:    # position 5
+                print("RED!")
                 if self.boardvisual.positions_status[5] == 0:
                     self.boardvisual.positions_status[5] = 2
                     self.boardvisual.getcolour_images()
                 else:
                     print("try another move")
+                self.red_found = False
 
             elif k == ord('z'):  # position 6
                 if self.boardvisual.positions_status[6] == 0:
@@ -117,3 +122,23 @@ class HumanPlayer:
     # When everything is done, release the capture
         self.video_capture.release()
         cv2.destroyAllWindows()
+
+    def look_for_colours(self, frame):
+        # Determine the spotting range of RED
+        lower_range = np.array([55, 70, 160])
+        upper_range = np.array([70, 110, 205])
+
+        # Filter out from the capture the RED object
+        paperThing = cv2.inRange(frame, lower_range, upper_range)
+
+        # Determine if there is indeed an object in the image
+        hight = int(format(paperThing.shape[0]))
+        width = int(format(paperThing.shape[1]))
+        whiteness = 0
+        for i in range(0, hight - 1, 4):
+            for j in range(0, width - 1, 4):
+                if paperThing[i, j] > 200:
+                    whiteness = whiteness + 1
+        if whiteness >= 2000:
+            # Object confirmed
+            self.red_found = True
