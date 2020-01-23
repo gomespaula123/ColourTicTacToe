@@ -15,17 +15,14 @@ class AIPlayer:
     def testai_playerfunction(self):
         print("test AI called function")
 
-    def calculate_next_move1(self):
-        print("next move 1")
-        # print(current_board)
-        # for next_move in current_board.get_possible_moves():
-            # next_score =
+    def calculate_next_move1(self, current_board):
+        # current_board = self.boardvisual.positions_status
         score_move_pairs = []
-        print("got till line 23")
-        for next_move in self.get_possible_moves():
-            print("got till line 25)")
-            next_score = self.min_max(self.boardvisual.positions_status, next_move, self.mark)
-            print("it did do line 27")
+        print("got till line 21")
+        for next_move in self.get_possible_moves(current_board):
+            print("got till line 23")
+            next_score = self.min_max(current_board, next_move, self.mark)
+            print("it did do line 25")
             score_move_pairs.append((next_score, next_move))
 
             # if there is no score/move pair, return 0
@@ -64,7 +61,7 @@ class AIPlayer:
     def min_max(self, current_board, move, mark):
         # depth = 8
         # the  next  board  is a (deep) copy of the  current  board
-        current_board = self.boardvisual.positions_status
+
         print("did a thing, line 68")
         next_board = current_board.deep_copy()
 
@@ -145,13 +142,13 @@ class AIPlayer:
         else:
             return "X"
 
-    def get_possible_moves(self):
+    def get_possible_moves(self, current_board):
         possible_moves = []
         for i in range(0, 9):
-            if self.boardvisual.positions_status[i] == 0:
-                possible_moves.append(self.boardvisual.positions_status[i])
+            if current_board[i] == 0:
+                possible_moves.append(i)
                 # print("it got added")
-               #  print(i)
+                # print(i)
         # for self.boardvisual.positions_status in possible_moves:
              #print i
         print(possible_moves)
