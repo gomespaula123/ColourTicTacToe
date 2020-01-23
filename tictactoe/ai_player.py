@@ -1,14 +1,15 @@
-
+# from tictactoe import board_analysis
 
 class AIPlayer:
 
-    def __init__(self, game):
+    def __init__(self, game, boardanalysis):
         # print("what do I put here")
         self.next_board = None
         self.mark = 2
         self.game = game
         self.memo = dict()
         self.counter = 0
+        self.boardanalysis = boardanalysis
 
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
@@ -78,10 +79,10 @@ class AIPlayer:
             return self.memo[(tuple(next_board))]
 
         # if it is a win  return  10 --> 100
-        if next_board.check_win():
+        if self.boardanalysis.check_win():
             return 100
         # if the  board  is full  return 0
-        if next_board.board_full():
+        if self.boardanalysis.check_full():
             return 0
 
         # compute  the  minimum  score  of all  possible  moves

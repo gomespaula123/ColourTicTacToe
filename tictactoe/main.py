@@ -18,8 +18,9 @@ class Game:
         self.game = None
         pygame.init()
         self.human_player = HumanPlayer(self.game)
-        self.ai_player = AIPlayer(self.game)
+
         self.board_analysis = BoardAnalysis(self.game)
+        self.ai_player = AIPlayer(self.game, self.board_analysis)
         # self.board_analysis = BoardAnalysis(self.game, self.board_visual)
         self.board_visual = BoardVisual(self.game, self.human_player, self.board_analysis, self.ai_player)
         self.board_analysis.set_board(self.board_visual)
