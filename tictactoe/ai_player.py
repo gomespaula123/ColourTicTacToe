@@ -17,7 +17,10 @@ class AIPlayer:
     def testai_playerfunction(self):
         print("test AI called function")
 
-    def calculate_next_move1(self, current_board):
+    def do_move(self, board):
+        return self.calculate_next_move(board, self.mark)
+
+    def calculate_next_move(self, current_board, mark):
         # current_board = self.boardvisual.positions_status
         score_move_pairs = []
         print("got till line 21")
@@ -85,13 +88,14 @@ class AIPlayer:
         # compute  the  minimum  score  of all  possible  moves
         score = []
         for possible_move in self.get_possible_moves(next_board):
+            print("does this happen line 91")
             '''depth -= 1
             if depth <= -1:
                 score.append(self.get_heuristic_value(next_board, mark))  # as your opponent wants to minimize your score, add your scores to list based on heuristics
                 self.counter += 1
                 return min(score)  # picks the one where your score is lowest'''
             score_value = self.max_min(next_board, possible_move, self.other_mark(mark))
-            print("94 does this happen")
+            print("98 does this happen")
             score.append(score_value)
 
         # self.memo[(tuple(next_board))] = min(score)

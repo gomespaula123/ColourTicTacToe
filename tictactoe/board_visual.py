@@ -66,10 +66,9 @@ class BoardVisual:
         self.boardanalysis.check_full()
         # self.boardanalysis.test_function1()
         # self.aiplayer.testai_playerfunction()
-        self.aiplayer.get_possible_moves(self.positions_status)
-        self.aiplayer.calculate_next_move1(self.positions_status)
-        # self.aiplayer.calculate_next_move(self.positions_status)
-        # self.aiplayer.calculate_next_move(self.positions_status)
+        # self.aiplayer.get_possible_moves(self.positions_status)
+        # self.aiplayer.calculate_next_move1(self.positions_status)
+        # self.aiplayer.do_move(self.positions_status)
         self.humanplayer.webcam_setup()
         # send the list of positions status to board analysis
 

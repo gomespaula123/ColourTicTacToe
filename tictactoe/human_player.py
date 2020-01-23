@@ -89,8 +89,8 @@ class HumanPlayer:
                 else:
                     print("try another move")
 
-            elif self.red_found:    # position 5
-                print("RED!")
+            elif self.red_found or k == ord('d'):    # position 5
+                # print("RED!")
                 if self.boardvisual.positions_status[5] == 0:
                     self.boardvisual.positions_status[5] = 2
                     self.boardvisual.getcolour_images()
