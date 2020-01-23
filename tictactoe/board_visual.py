@@ -48,8 +48,8 @@ class BoardVisual:
         # random.shuffle(self.colourimages_list)
         self.change_positions()
         self.boardanalysis.get_positions()
-        self.boardanalysis.check_lose()
-        self.boardanalysis.check_win()
+        # self.boardanalysis.check_lose()
+        # self.boardanalysis.check_win()
 
         for i in range(0, 9):
             if self.positions_status[i] == 0:
@@ -61,8 +61,14 @@ class BoardVisual:
 
         self.screen.blit(board_im, (45, 50))
         pygame.display.update()
+        self.boardanalysis.check_lose()
+        self.boardanalysis.check_win()
         # self.boardanalysis.test_function1()
         self.aiplayer.testai_playerfunction()
+        self.aiplayer.get_possible_moves()
+        self.aiplayer.calculate_next_move1()
+        # self.aiplayer.calculate_next_move(self.positions_status)
+        # self.aiplayer.calculate_next_move(self.positions_status)
         self.humanplayer.webcam_setup()
         # send the list of positions status to board analysis
 

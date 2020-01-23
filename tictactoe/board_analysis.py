@@ -1,3 +1,6 @@
+import sys
+import pygame
+import cv2
 
 class BoardAnalysis:
 
@@ -39,6 +42,7 @@ class BoardAnalysis:
             lose = True
             print(lose)
             print("you lost")
+            self.quit_game()
 
     def check_win(self):
         win = False
@@ -64,7 +68,13 @@ class BoardAnalysis:
             win = True
             print(win)
             print("you won")
+            self.quit_game()
 
+    def quit_game(self):
+        # self.video_capture.release()
+        cv2.destroyAllWindows()
+        pygame.quit()
+        sys.exit()
 
 
 
