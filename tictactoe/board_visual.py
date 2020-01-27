@@ -9,8 +9,10 @@ class BoardVisual:
     def __init__(self, game, humanplayer, boardanalysis, aiplayer):
         self.game = game
         self.humanplayer = humanplayer  # test
-        self.aiplayer = aiplayer
         self.boardanalysis = boardanalysis
+        self.aiplayer = aiplayer
+
+        # Test the display of plays
         self.positions_status = [0, 0, 1, 0, 0, 0, 0, 0, 1]
 
 

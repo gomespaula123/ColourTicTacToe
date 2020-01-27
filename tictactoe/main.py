@@ -17,16 +17,27 @@ class Game:
         # self.game = game
         self.game = None
         pygame.init()
+
+        # Launch the video capture and the logic that allows the user to play the game
         self.human_player = HumanPlayer(self.game)
 
+        # Holds the logic for the board such as determining if someone won
         self.board_analysis = BoardAnalysis(self.game)
+
+        # AI engine for the opponent
         self.ai_player = AIPlayer(self.game, self.board_analysis)
-        # self.board_analysis = BoardAnalysis(self.game, self.board_visual)
+
+        # Updates the renderer with what to show in the game board
         self.board_visual = BoardVisual(self.game, self.human_player, self.board_analysis, self.ai_player)
+
+        # Includes the generated game board in the previously generated board logic engine
         self.board_analysis.set_board(self.board_visual)
+
+        # Connects the players to the actual game such that they can interact with the board
         self.human_player.set_board(self.board_visual)
         self.ai_player.set_board(self.board_visual)
-        # self.board_visual = BoardVisual(self.game, self.human_player)
+
+        # Move into the rendering process
         self.draw_board()
 
 
@@ -61,6 +72,7 @@ while running:
             running = False
 '''
 
+# Renders the game again every frame
 if __name__ == "__main__":
     game = Game()
     # while True:

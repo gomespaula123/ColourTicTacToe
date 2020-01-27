@@ -5,8 +5,8 @@ import cv2
 class BoardAnalysis:
 
     def __init__(self, game):
-        # self.boardvisual = boardvisual
         self.game = game
+        # self.boardvisual = boardvisual
         # self.humanplayer = humanplayer  # test
         # self.boardvisual = boardvisual
 
