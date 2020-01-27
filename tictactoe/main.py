@@ -46,8 +46,8 @@ class Game:
         # self.draw_board()
 
     def draw_board(self):
-        print("prints draw board")
         # self.screen.fill([255, 255, 255])
+        print("Ready to start!")
         screen = pygame.display.set_mode((700, 700))
         self.board_visual.create_window(screen)
         # self.board_visual.place_fields()
@@ -56,9 +56,9 @@ class Game:
         pygame.display.flip()
 
 
-    def get_webcaminput(self):
+    '''def get_webcaminput(self):
         # print("get webcaminput")
-        self.human_player.webcam_setup()
+        self.human_player.webcam_setup()'''
 
 '''
 background_colour = (255, 255, 255)
