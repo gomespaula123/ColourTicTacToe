@@ -35,11 +35,22 @@ class HumanPlayer:
         self.none_found = True
         self.spot_counter = 0
 
+        # Time for the player to present the color that they want to play
+        self.timer_counter_magigy = 10  # No clue about the ratio of ticks per second doe...
+        self.timer_counter = self.timer_counter_magigy
+
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
 
     def human_move(self):
-        while True:
+        while True: # Officially the game loop
+            print(self.timer_counter)
+            self.timer_counter -= 1
+            if self.timer_counter < 1:
+                print("boom!")
+                self.boardvisual.draw_new_board()
+                self.timer_counter = self.timer_counter_magigy
+
             # Capture frame-by-frame
             ret, frame = self.video_capture.read()
             self.look_for_colours(frame)
@@ -65,19 +76,19 @@ class HumanPlayer:
                             print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
-                                self.boardvisual.getcolour_images()
                                 self.boardvisual.ai_turn = True
+                                self.boardvisual.play_round()
                             else:
                                 print("try another move")
                 elif not self.none_found:
-                    self.spot_counter = self.spot_counter + 1
+                    self.spot_counter += 1
                 self.yellow_found = False
 
             elif k == ord('w'):  # Empty play (saved for white)
                 if self.boardvisual.positions_status[1] == 0:
                     self.boardvisual.positions_status[1] = 2
-                    self.boardvisual.getcolour_images()
                     self.boardvisual.ai_turn = True
+                    self.boardvisual.play_round()
                 else:
                     print("try another move")
 
@@ -89,12 +100,12 @@ class HumanPlayer:
                             print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
-                                self.boardvisual.getcolour_images()
                                 self.boardvisual.ai_turn = True
+                                self.boardvisual.play_round()
                             else:
                                 print("try another move")
                 elif not self.none_found:
-                    self.spot_counter = self.spot_counter + 1
+                    self.spot_counter += 1
                 self.green_found = False
 
             elif self.cyan_found or k == ord('a'):  # If cyan played
@@ -105,12 +116,12 @@ class HumanPlayer:
                             print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
-                                self.boardvisual.getcolour_images()
                                 self.boardvisual.ai_turn = True
+                                self.boardvisual.play_round()
                             else:
                                 print("try another move")
                 elif not self.none_found:
-                    self.spot_counter = self.spot_counter + 1
+                    self.spot_counter += 1
                 self.cyan_found = False
 
             elif self.blue_found or k == ord('s'):  # If blue played
@@ -121,12 +132,12 @@ class HumanPlayer:
                             print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
-                                self.boardvisual.getcolour_images()
                                 self.boardvisual.ai_turn = True
+                                self.boardvisual.play_round()
                             else:
                                 print("try another move")
                 elif not self.none_found:
-                    self.spot_counter = self.spot_counter + 1
+                    self.spot_counter += 1
                 self.blue_found = False
 
             elif self.red_found or k == ord('d'):  # If red played
@@ -137,12 +148,12 @@ class HumanPlayer:
                             print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
-                                self.boardvisual.getcolour_images()
                                 self.boardvisual.ai_turn = True
+                                self.boardvisual.play_round()
                             else:
                                 print("try another move")
                 elif not self.none_found:
-                    self.spot_counter = self.spot_counter + 1
+                    self.spot_counter += 1
                 self.red_found = False
 
             elif self.magenta_found or k == ord('z'):  # If magenta played
@@ -153,12 +164,12 @@ class HumanPlayer:
                             print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
-                                self.boardvisual.getcolour_images()
                                 self.boardvisual.ai_turn = True
+                                self.boardvisual.play_round()
                             else:
                                 print("try another move")
                 elif not self.none_found:
-                    self.spot_counter = self.spot_counter + 1
+                    self.spot_counter += 1
                 self.magenta_found = False
 
             elif self.black_found or k == ord('x'):  # If black played
@@ -169,21 +180,29 @@ class HumanPlayer:
                             print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
-                                self.boardvisual.getcolour_images()
                                 self.boardvisual.ai_turn = True
+                                self.boardvisual.play_round()
                             else:
                                 print("try another move")
                 elif not self.none_found:
-                    self.spot_counter = self.spot_counter + 1
+                    self.spot_counter += 1
                 self.black_found = False
 
             elif k == ord('c'):  # Empty, reserved for testing
                 if self.boardvisual.positions_status[8] == 0:
                     self.boardvisual.positions_status[8] = 2
-                    self.boardvisual.getcolour_images()
                     self.boardvisual.ai_turn = True
+                    self.boardvisual.play_round()
                 else:
                     print("try another move")
+
+            # Serves to increase and decrease the amount of time between the color changes in game
+            elif k == ord('n'):
+                self.timer_counter_magigy += 1
+                print(self.timer_counter_magigy)
+            elif k == ord('m'):
+                self.timer_counter_magigy -= 1
+                print(self.timer_counter_magigy)
 
     def look_for_colours(self, frame):
         self.black_questionmark(frame)
@@ -210,7 +229,7 @@ class HumanPlayer:
         for i in range(0, height - 1, 4):
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
-                    whiteness = whiteness + 1
+                    whiteness += 1
         if whiteness >= 2000:
             # Object confirmed
             self.black_found = True
@@ -231,7 +250,7 @@ class HumanPlayer:
         for i in range(0, height - 1, 4):
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
-                    whiteness = whiteness + 1
+                    whiteness += 1
         if whiteness >= 2000:
             # Object confirmed
             self.blue_found = True
@@ -252,7 +271,7 @@ class HumanPlayer:
         for i in range(0, height - 1, 4):
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
-                    whiteness = whiteness + 1
+                    whiteness += 1
         if whiteness >= 2000:
             # Object confirmed
             self.cyan_found = True
@@ -273,7 +292,7 @@ class HumanPlayer:
         for i in range(0, height - 1, 4):
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
-                    whiteness = whiteness + 1
+                    whiteness += 1
         if whiteness >= 2000:
             # Object confirmed
             self.green_found = True
@@ -294,7 +313,7 @@ class HumanPlayer:
         for i in range(0, height - 1, 4):
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
-                    whiteness = whiteness + 1
+                    whiteness += 1
         if whiteness >= 2000:
             # Object confirmed
             self.magenta_found = True
@@ -315,7 +334,7 @@ class HumanPlayer:
         for i in range(0, height - 1, 4):
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
-                    whiteness = whiteness + 1
+                    whiteness += 1
         if whiteness >= 2000:
             # Object confirmed
             self.red_found = True
@@ -336,7 +355,7 @@ class HumanPlayer:
         for i in range(0, height - 1, 4):
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
-                    whiteness = whiteness + 1
+                    whiteness += 1
         if whiteness >= 2000:
             # Object confirmed
             self.yellow_found = True

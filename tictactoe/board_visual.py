@@ -21,7 +21,7 @@ class BoardVisual:
         background_colour = (255, 255, 255)
         self.screen = screen
         screen.fill(background_colour)
-        self.getcolour_images()
+        self.play_round()
 
         pygame.display.flip()
         running = True
@@ -30,7 +30,29 @@ class BoardVisual:
                 if event.type == pygame.QUIT:
                     running = False
 
-    def getcolour_images(self):
+    def play_round(self):
+        self.draw_new_board()
+
+        self.boardanalysis.check_lose(self.positions_status)
+        self.boardanalysis.check_win(self.positions_status)
+#        print(self.ai_turn)
+        self.boardanalysis.check_full(self.positions_status)
+        # Check for changes in the board to move to the ai player
+        # self.aiplayer.do_move()
+        print("waiting on your move")
+        self.humanplayer.human_move()
+        print("got here")
+
+
+
+        # send the list of positions status to board analysis
+
+        # self.boardanalysis.test_function1()
+
+    def change_positions(self):
+        random.shuffle(self.colourimages_list)
+
+    def draw_new_board(self):
         # loading all the images:
         black_im = pygame.image.load('Black.png')
         blue_im = pygame.image.load('Blue.png')
@@ -65,25 +87,5 @@ class BoardVisual:
 
         self.screen.blit(board_im, (45, 50))
         pygame.display.update()
-        self.boardanalysis.check_lose(self.positions_status)
-        self.boardanalysis.check_win(self.positions_status)
-#        print(self.ai_turn)
-        self.boardanalysis.check_full(self.positions_status)
-        # Check for changes in the board to move to the ai player
-        # self.aiplayer.do_move()
-        print("waiting on your move")
-        self.humanplayer.human_move()
-        print("got here")
-
-
-
-        # send the list of positions status to board analysis
-
-        # self.boardanalysis.test_function1()
-
-    def change_positions(self):
-        random.shuffle(self.colourimages_list)
-
-
 
 
