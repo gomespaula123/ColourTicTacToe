@@ -5,7 +5,7 @@ class AIPlayer:
     def __init__(self, game, boardanalysis):
         # print("what do I put here")
         self.next_board = None
-        self.mark = 2
+        self.mark = 1
         self.game = game
         self.memo = dict()
         self.counter = 0
@@ -33,7 +33,7 @@ class AIPlayer:
             # compute the max score/move
             highest_score, best_move = max(score_move_pairs)
             # return the move
-            print("best move", best_move)
+            print("best move:", best_move)
             return best_move
 
     '''def calculate_next_move(self, current_board):

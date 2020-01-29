@@ -43,7 +43,7 @@ class HumanPlayer:
         self.boardvisual = boardvisual
 
     def human_move(self):
-        while True: # Officially the game loop
+        while True:  # Officially the game loop
             print(self.timer_counter)
             self.timer_counter -= 1
             if self.timer_counter < 1:

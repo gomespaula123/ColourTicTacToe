@@ -13,7 +13,7 @@ class BoardVisual:
         self.aiplayer = aiplayer
 
         # Test the display of plays
-        self.positions_status = [0, 0, 0, 0, 0, 1, 0, 0, 2]
+        self.positions_status = [0, 0, 0, 0, 0, 0, 0, 0, 1]
         self.ai_turn = None
 
 
@@ -38,7 +38,7 @@ class BoardVisual:
 #        print(self.ai_turn)
         self.boardanalysis.check_full(self.positions_status)
         # Check for changes in the board to move to the ai player
-        # self.aiplayer.do_move()
+        self.aiplayer.do_move()
         print("waiting on your move")
         self.humanplayer.human_move()
         print("got here")
