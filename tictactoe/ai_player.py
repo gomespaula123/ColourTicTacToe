@@ -14,33 +14,27 @@ class AIPlayer:
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
 
-    def testai_playerfunction(self):
-        print("test AI called function")
+    def do_move(self):
+        self.boardvisual.positions_status[self.calculate_next_move(self.boardvisual.positions_status)] = self.mark
 
-    def do_move(self, board):
-        return self.calculate_next_move(board, self.mark)
-
-    def calculate_next_move(self, current_board, mark):
+    def calculate_next_move(self, current_board):
         # current_board = self.boardvisual.positions_status
         score_move_pairs = []
-        print("got till line 21")
         for next_move in self.get_possible_moves(current_board):
-            print("got till line 23")
             next_score = self.min_max(current_board, next_move, self.mark)
-            print("it did do line 25")
             score_move_pairs.append((next_score, next_move))
 
             # if there is no score/move pair, return 0
-            if not score_move_pairs:
-                return 0
+        if not score_move_pairs:
+            return 10
 
-            # otherwise
-            else:
-                # compute the max score/move
-                highest_score, best_move = max(score_move_pairs)
-                # return the move
-                print("best move", best_move)
-                return best_move
+        # otherwise
+        else:
+            # compute the max score/move
+            highest_score, best_move = max(score_move_pairs)
+            # return the move
+            print("best move", best_move)
+            return best_move
 
     '''def calculate_next_move(self, current_board):
         print("calculate_next_move")
@@ -67,11 +61,10 @@ class AIPlayer:
 
         # the  next  board  is a (deep) copy of the  current  board
         next_board = current_board.copy()
-        print("it copied the board, 67")
 
         # place  the  move  for  the  mark on the  next  board --> put best move there
         # original here: next_board.place_move(move, mark)
-        self.place_move(next_board, move, mark)
+        next_board[move] = mark
         # next_board.place_move(move, mark)
 
         # check if the next board (next_board.board) is in the dictionary, if it is, use that value
@@ -79,23 +72,21 @@ class AIPlayer:
             return self.memo[(tuple(next_board))]
 
         # if it is a win  return  10 --> 100
-        if self.boardanalysis.check_win():
+        if self.boardanalysis.check_win(next_board):
             return 100
         # if the  board  is full  return 0
-        if self.boardanalysis.check_full():
+        if self.boardanalysis.check_full(next_board):
             return 0
 
         # compute  the  minimum  score  of all  possible  moves
         score = []
         for possible_move in self.get_possible_moves(next_board):
-            print("does this happen line 91")
             '''depth -= 1
             if depth <= -1:
                 score.append(self.get_heuristic_value(next_board, mark))  # as your opponent wants to minimize your score, add your scores to list based on heuristics
                 self.counter += 1
                 return min(score)  # picks the one where your score is lowest'''
             score_value = self.max_min(next_board, possible_move, self.other_mark(mark))
-            print("98 does this happen")
             score.append(score_value)
 
         # self.memo[(tuple(next_board))] = min(score)
@@ -104,6 +95,8 @@ class AIPlayer:
         # print("depth minmax", depth)
 
         # return the minimum score
+        if len(score) == 0:
+            return 0
         return min(score)
 
     def max_min(self, current_board, move, mark):
@@ -112,7 +105,7 @@ class AIPlayer:
         next_board = current_board.copy()
 
         # place  the  move  for  the  mark on the  next  board
-        self.place_move(next_board, move, mark)
+        next_board[move] = mark
         # next_board.place_move(move, mark)
 
         # check if the next board (next_board.board) is in the dictionary, if it is, use that value
@@ -120,10 +113,10 @@ class AIPlayer:
             return self.memo[(tuple(next_board))]
 
         # if it is a win  return  -10 --> -100
-        if self.boardanalysis.check_lose():
+        if self.boardanalysis.check_lose(next_board):
             return -100
         # if the  board  is full  return 0
-        if self.boardanalysis.check_full():
+        if self.boardanalysis.check_full(next_board):
             return 0
 
         # compute  the  maximum  score  of all  possible  moves
@@ -143,6 +136,8 @@ class AIPlayer:
         # print("depth maxmin", depth)
 
         # return the maximum score
+        if len(score) == 0:
+            return 0
         return max(score)
 
     '''def other_mark(self, mark):
@@ -168,11 +163,11 @@ class AIPlayer:
         print(possible_moves)
         return possible_moves
 
-    def place_move(self, next_board, move, mark):
+        ''' def place_move(self, next_board, move, mark):
         print("called place move")
         # self.possible_moves[next_move] = 2
         # self.next_board[move] = 2
         # mark = 2
         next_board[move] = mark
         print(next_board[move])
-        # original here: self.board[move] = mark
+        # original here: self.board[move] = mark'''

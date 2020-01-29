@@ -38,8 +38,7 @@ class HumanPlayer:
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
 
-
-    def webcam_setup(self):
+    def human_move(self):
         while True:
             # Capture frame-by-frame
             ret, frame = self.video_capture.read()
@@ -49,136 +48,142 @@ class HumanPlayer:
 
             # Redundancy testing
             if not self.red_found and not self.green_found and not self.blue_found:
-                print('no red green nor blue')
                 if not self.cyan_found and not self.yellow_found and not self.magenta_found:
                     if not self.black_found and not self.white_found:
                         self.none_found = True
                         self.spot_counter = 0
 
-    # Display the resulting frame
-    # cv2.imshow(window_name, image)
+            # Display the resulting frame
             cv2.imshow('Windowname', frame)
-            # print("does this happen??????????????????????????????")
 
-            if k % 256 == 27:  # ESC Pressed
-                break
-            elif k % 256 == 32:  # SPACE pressed
-                print("something")
-                # self.board_visual.create_window(self.screen)
-                # self.video_capture.release()
-                # cv2.destroyAllWindows()
-                #  self.game.draw_board()
-                # self.main.draw_board
-                # this is a test :)
-
-                # end of test
-                self.boardvisual.getcolour_images()
-                print(self.spot_counter)
-                # self.boardvisual.create_window(self.screen)
-                # self.main.get_webcaminput(self)
-
-            # check input,
-            elif self.yellow_found or k == ord('q'):  # position 0
-                if self.spot_counter > self.intensity:
+            # Makes the play depending on either keyboard input or the colour detection
+            if self.yellow_found or k == ord('q'):  # If yellow played
+                if self.spot_counter > self.intensity or k == ord('q'):
                     print("YELLOW!")
-                    if self.boardvisual.positions_status[0] == 0:
-                        self.boardvisual.positions_status[0] = 2
-                        self.boardvisual.getcolour_images()
-                    else:
-                        print("try another move")
+                    for place_in_color_list in range(0, 8):
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 7:  # Looks for the yellow tag
+                            print(self.boardvisual.positions_status[place_in_color_list])
+                            if self.boardvisual.positions_status[place_in_color_list] == 0:
+                                self.boardvisual.positions_status[place_in_color_list] = 2
+                                self.boardvisual.getcolour_images()
+                                self.boardvisual.ai_turn = True
+                            else:
+                                print("try another move")
                 elif not self.none_found:
                     self.spot_counter = self.spot_counter + 1
                 self.yellow_found = False
 
-            elif k == ord('w'):  # position 1
+            elif k == ord('w'):  # Empty play (saved for white)
                 if self.boardvisual.positions_status[1] == 0:
                     self.boardvisual.positions_status[1] = 2
                     self.boardvisual.getcolour_images()
+                    self.boardvisual.ai_turn = True
                 else:
                     print("try another move")
 
-            elif self.green_found or k == ord('e'):  # position 2
-                if self.spot_counter > self.intensity:
+            elif self.green_found or k == ord('e'):  # If green played
+                if self.spot_counter > self.intensity or k == ord('e'):
                     print("GREEN!")
-                    if self.boardvisual.positions_status[2] == 0:
-                        self.boardvisual.positions_status[2] = 2
-                        self.boardvisual.getcolour_images()
-                    else:
-                        print("try another move")
+                    for place_in_color_list in range(0, 8):
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 3:  # Looks for the green tag
+                            print(self.boardvisual.positions_status[place_in_color_list])
+                            if self.boardvisual.positions_status[place_in_color_list] == 0:
+                                self.boardvisual.positions_status[place_in_color_list] = 2
+                                self.boardvisual.getcolour_images()
+                                self.boardvisual.ai_turn = True
+                            else:
+                                print("try another move")
                 elif not self.none_found:
                     self.spot_counter = self.spot_counter + 1
                 self.green_found = False
 
-            elif self.cyan_found or k == ord('a'):  # position 3
-                if self.spot_counter > self.intensity:
+            elif self.cyan_found or k == ord('a'):  # If cyan played
+                if self.spot_counter > self.intensity or k == ord('a'):
                     print("CYAN!")
-                    if self.boardvisual.positions_status[3] == 0:
-                        self.boardvisual.positions_status[3] = 2
-                        self.boardvisual.getcolour_images()
-                    else:
-                        print("try another move")
+                    for place_in_color_list in range(0, 8):
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 2: # Looks for the cyan tag
+                            print(self.boardvisual.positions_status[place_in_color_list])
+                            if self.boardvisual.positions_status[place_in_color_list] == 0:
+                                self.boardvisual.positions_status[place_in_color_list] = 2
+                                self.boardvisual.getcolour_images()
+                                self.boardvisual.ai_turn = True
+                            else:
+                                print("try another move")
                 elif not self.none_found:
                     self.spot_counter = self.spot_counter + 1
                 self.cyan_found = False
 
-            elif self.blue_found or k == ord('s'):  # position 4
-                if self.spot_counter > self.intensity:
+            elif self.blue_found or k == ord('s'):  # If blue played
+                if self.spot_counter > self.intensity or k == ord('s'):
                     print("BLUE!")
-                    if self.boardvisual.positions_status[4] == 0:
-                        self.boardvisual.positions_status[4] = 2
-                        self.boardvisual.getcolour_images()
-                    else:
-                        print("try another move")
+                    for place_in_color_list in range(0, 8):
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 1:  # Looks for the blue tag
+                            print(self.boardvisual.positions_status[place_in_color_list])
+                            if self.boardvisual.positions_status[place_in_color_list] == 0:
+                                self.boardvisual.positions_status[place_in_color_list] = 2
+                                self.boardvisual.getcolour_images()
+                                self.boardvisual.ai_turn = True
+                            else:
+                                print("try another move")
                 elif not self.none_found:
                     self.spot_counter = self.spot_counter + 1
                 self.blue_found = False
 
-            elif self.red_found or k == ord('d'):    # position 5
-                if self.spot_counter > self.intensity:
+            elif self.red_found or k == ord('d'):  # If red played
+                if self.spot_counter > self.intensity or k == ord('d'):
                     print("RED!")
-                    if self.boardvisual.positions_status[5] == 0:
-                        self.boardvisual.positions_status[5] = 2
-                        self.boardvisual.getcolour_images()
-                    else:
-                        print("try another move")
+                    for place_in_color_list in range(0, 8):
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 5:  # Looks for the red tag
+                            print(self.boardvisual.positions_status[place_in_color_list])
+                            if self.boardvisual.positions_status[place_in_color_list] == 0:
+                                self.boardvisual.positions_status[place_in_color_list] = 2
+                                self.boardvisual.getcolour_images()
+                                self.boardvisual.ai_turn = True
+                            else:
+                                print("try another move")
                 elif not self.none_found:
                     self.spot_counter = self.spot_counter + 1
                 self.red_found = False
 
-            elif self.magenta_found or k == ord('z'):  # position 6
-                if self.spot_counter > self.intensity:
+            elif self.magenta_found or k == ord('z'):  # If magenta played
+                if self.spot_counter > self.intensity or k == ord('z'):
                     print("MAGENTA!")
-                    if self.boardvisual.positions_status[6] == 0:
-                        self.boardvisual.positions_status[6] = 2
-                        self.boardvisual.getcolour_images()
-                    else:
-                        print("try another move")
+                    for place_in_color_list in range(0, 8):
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 4:  # Looks for the magenta tag
+                            print(self.boardvisual.positions_status[place_in_color_list])
+                            if self.boardvisual.positions_status[place_in_color_list] == 0:
+                                self.boardvisual.positions_status[place_in_color_list] = 2
+                                self.boardvisual.getcolour_images()
+                                self.boardvisual.ai_turn = True
+                            else:
+                                print("try another move")
                 elif not self.none_found:
                     self.spot_counter = self.spot_counter + 1
                 self.magenta_found = False
 
-            elif self.black_found or k == ord('x'):  # position 7
-                if self.spot_counter > self.intensity:
+            elif self.black_found or k == ord('x'):  # If black played
+                if self.spot_counter > self.intensity or k == ord('x'):
                     print("BLACK!")
-                    if self.boardvisual.positions_status[7] == 0:
-                        self.boardvisual.positions_status[7] = 2
-                        self.boardvisual.getcolour_images()
-                    else:
-                        print("try another move")
+                    for place_in_color_list in range(0, 8):
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 0:  # Looks for the black tag
+                            print(self.boardvisual.positions_status[place_in_color_list])
+                            if self.boardvisual.positions_status[place_in_color_list] == 0:
+                                self.boardvisual.positions_status[place_in_color_list] = 2
+                                self.boardvisual.getcolour_images()
+                                self.boardvisual.ai_turn = True
+                            else:
+                                print("try another move")
                 elif not self.none_found:
                     self.spot_counter = self.spot_counter + 1
                 self.black_found = False
 
-            elif k == ord('c'):  # position 8
+            elif k == ord('c'):  # Empty, reserved for testing
                 if self.boardvisual.positions_status[8] == 0:
                     self.boardvisual.positions_status[8] = 2
                     self.boardvisual.getcolour_images()
+                    self.boardvisual.ai_turn = True
                 else:
                     print("try another move")
-
-    # When everything is done, release the capture
-        self.video_capture.release()
-        cv2.destroyAllWindows()
 
     def look_for_colours(self, frame):
         self.black_questionmark(frame)
@@ -188,9 +193,7 @@ class HumanPlayer:
         self.magenta_questionmark(frame)
         self.red_questionmark(frame)
         self.yellow_questionmark(frame)
-        self.white_questionmark(frame)
-
-
+        # self.white_questionmark(frame)
 
     def black_questionmark(self, frame):
         # Determine the spotting range of BLACK

@@ -13,7 +13,8 @@ class BoardVisual:
         self.aiplayer = aiplayer
 
         # Test the display of plays
-        self.positions_status = [0, 0, 1, 0, 0, 0, 0, 0, 1]
+        self.positions_status = [0, 0, 0, 0, 0, 1, 0, 0, 2]
+        self.ai_turn = None
 
 
     def create_window(self, screen):
@@ -30,7 +31,6 @@ class BoardVisual:
                     running = False
 
     def getcolour_images(self):
-        # print("it does the thing now food")
         # loading all the images:
         black_im = pygame.image.load('Black.png')
         blue_im = pygame.image.load('Blue.png')
@@ -44,9 +44,11 @@ class BoardVisual:
         # emptysqr_im = pygame.image.load('emptybox.png')
         c_mark = pygame.image.load('Circle.png')
         s_mark = pygame.image.load('Square.png')
-        self.colourimages_list = [black_im, blue_im, cyan_im, green_im, magenta_im, red_im, white_im, yellow_im]
+        self.colourimages_list = [(black_im, 0), (blue_im, 1), (cyan_im, 2), (green_im, 3),
+                                  (magenta_im, 4), (red_im, 5), (white_im, 6), (yellow_im, 7)]
 
-        positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250), (450, 250), (50, 450), (250, 450), (450, 450)]
+        positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250),
+                          (450, 250), (50, 450), (250, 450), (450, 450)]
         # random.shuffle(self.colourimages_list)
         self.change_positions()
         self.boardanalysis.get_positions()
@@ -55,7 +57,7 @@ class BoardVisual:
 
         for i in range(0, 9):
             if self.positions_status[i] == 0:
-                self.screen.blit(self.colourimages_list[i], positions_list[i])
+                self.screen.blit(self.colourimages_list[i][0], positions_list[i])
             elif self.positions_status[i] == 1:  # draw circle
                 self.screen.blit(c_mark, positions_list[i])
             elif self.positions_status[i] == 2:  # draw square
@@ -63,15 +65,18 @@ class BoardVisual:
 
         self.screen.blit(board_im, (45, 50))
         pygame.display.update()
-        self.boardanalysis.check_lose()
-        self.boardanalysis.check_win()
-        self.boardanalysis.check_full()
-        # self.boardanalysis.test_function1()
-        # self.aiplayer.testai_playerfunction()
-        # self.aiplayer.get_possible_moves(self.positions_status)
-        # self.aiplayer.calculate_next_move1(self.positions_status)
-        # self.aiplayer.do_move(self.positions_status)
-        self.humanplayer.webcam_setup()
+        self.boardanalysis.check_lose(self.positions_status)
+        self.boardanalysis.check_win(self.positions_status)
+#        print(self.ai_turn)
+        self.boardanalysis.check_full(self.positions_status)
+        # Check for changes in the board to move to the ai player
+        # self.aiplayer.do_move()
+        print("waiting on your move")
+        self.humanplayer.human_move()
+        print("got here")
+
+
+
         # send the list of positions status to board analysis
 
         # self.boardanalysis.test_function1()
