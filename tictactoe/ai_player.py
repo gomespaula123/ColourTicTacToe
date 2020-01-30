@@ -10,7 +10,7 @@ class AIPlayer:
         self.memo = dict()
         self.counter = 0
         self.boardanalysis = boardanalysis
-        self.maxdepth = 10
+        self.maxdepth = 3
 
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
@@ -24,7 +24,7 @@ class AIPlayer:
         # current_board = self.boardvisual.positions_status
         score_move_pairs = []
         for next_move in self.get_possible_moves(current_board):
-            next_score = self.min_max(current_board, next_move, self.mark, 0, self.maxdepth)
+            next_score = self.min_max(current_board, next_move, self.mark, 0)
             score_move_pairs.append((next_score, next_move))
 
             # if there is no score/move pair, return -1 (should give an error)
@@ -39,27 +39,28 @@ class AIPlayer:
             print("best move:", best_move)
             return best_move
 
-    '''def calculate_next_move(self, current_board):
-        print("calculate_next_move")
-        # for every possible move, add a pair of a min_max score and the move to a list scores.
-        score_move_pairs = []
+    #
+    # '''def calculate_next_move(self, current_board):
+    #     print("calculate_next_move")
+    #     # for every possible move, add a pair of a min_max score and the move to a list scores.
+    #     score_move_pairs = []
+    #
+    #     for next_move in current_board.get_possible_moves():
+    #         next_score = self.min_max(current_board, next_move, self.mark)
+    #         score_move_pairs.append((next_score, next_move))
+    #
+    #         # if there is no score/move pair, return 0
+    #         if not score_move_pairs:
+    #             return 0
+    #
+    #         # otherwise
+    #         else:
+    #             # compute the max score/move
+    #             highest_score, best_move = max(score_move_pairs)
+    #             # return the move
+    #             return best_move'''
 
-        for next_move in current_board.get_possible_moves():
-            next_score = self.min_max(current_board, next_move, self.mark)
-            score_move_pairs.append((next_score, next_move))
-
-            # if there is no score/move pair, return 0
-            if not score_move_pairs:
-                return 0
-
-            # otherwise
-            else:
-                # compute the max score/move
-                highest_score, best_move = max(score_move_pairs)
-                # return the move
-                return best_move'''
-
-    def min_max(self, current_board, move, mark, depth, maxdepth):
+    def min_max(self, current_board, move, mark, depth):
         # depth = 8
 
         # the  next  board  is a (deep) copy of the  current  board
@@ -86,12 +87,13 @@ class AIPlayer:
         # compute  the  minimum  score  of all  possible  moves
         score = []
         for possible_move in self.get_possible_moves(next_board):
-            '''depth -= 1
-            if depth <= -1:
-                score.append(self.get_heuristic_value(next_board, mark))  # as your opponent wants to minimize your score, add your scores to list based on heuristics
+            depth += 1
+            if depth >= self.maxdepth:
+                score.append(self.get_heuristic_value(next_board,
+                                                      mark))  # as your opponent wants to minimize your score, add your scores to list based on heuristics
                 self.counter += 1
-                return min(score)  # picks the one where your score is lowest'''
-            score_value = self.max_min(next_board, possible_move, self.other_mark(mark), 0, self.maxdepth)
+                return min(score)  # picks the one where your score is lowest
+            score_value = self.max_min(next_board, possible_move, self.other_mark(mark), depth)
             score.append(score_value)
 
         # self.memo[(tuple(next_board))] = min(score)
@@ -104,7 +106,7 @@ class AIPlayer:
             return 0
         return min(score)
 
-    def max_min(self, current_board, move, mark, depth, maxdepth):
+    def max_min(self, current_board, move, mark, depth):
         # depth = 8
         # the next_board is a(deep) copy of the current_board
         next_board = current_board.copy()
@@ -129,12 +131,13 @@ class AIPlayer:
         # compute  the  maximum  score  of all  possible  moves
         score = []
         for possible_move in self.get_possible_moves(next_board):
-            '''depth -= 1
-            if depth <= -1:
-                score.append(-1 * (self.get_heuristic_value(next_board, mark)))  # add the scores of the possible moves of your opponent
+            depth += 1
+            if self.maxdepth >= -1:
+                score.append(-1 * (self.get_heuristic_value(next_board,
+                                                            mark)))  # add the scores of the possible moves of your opponent
                 self.counter += 1
-                return max(score)'''
-            score_value = self.min_max(next_board, possible_move, self.other_mark(mark), 0, self.maxdepth)
+                return max(score)
+            score_value = self.min_max(next_board, possible_move, self.other_mark(mark), depth)
             score.append(score_value)
 
         # self.memo[(tuple(next_board))] = max(score)
@@ -158,18 +161,170 @@ class AIPlayer:
         for i in range(0, 9):
             if current_board[i] == 0:
                 possible_moves.append(i)
-                # print("it got added")
-                # print(i)
-        # for self.boardvisual.positions_status in possible_moves:
-                # print i
-        # print(possible_moves)
         return possible_moves
 
-        ''' def place_move(self, next_board, move, mark):
-        print("called place move")
-        # self.possible_moves[next_move] = 2
-        # self.next_board[move] = 2
-        # mark = 2
-        next_board[move] = mark
-        print(next_board[move])
-        # original here: self.board[move] = mark'''
+    def get_heuristic_value(self, current_board, mark):
+        value_mark1 = 0
+        value_mark2 = 0
+        value_othermark1 = 0
+        value_othermark2 = 0
+
+        # START: MARK
+        # adding horizontal value_mark2
+        if (current_board[0] == mark and current_board[1] == 0 and current_board[2] == mark) \
+                or (current_board[0] == 0 and current_board[1] == mark and current_board[2] == mark) \
+                or (current_board[0] == mark and current_board[1] == mark and current_board[2] == 0):
+            value_mark2 += 1
+        if (current_board[3] == mark and current_board[4] == 0 and current_board[5] == mark) \
+                or (current_board[3] == 0 and current_board[4] == mark and current_board[5] == mark) \
+                or (current_board[3] == mark and current_board[4] == mark and current_board[5] == 0):
+            value_mark2 += 1
+        if (current_board[6] == mark and current_board[7] == 0 and current_board[8] == mark) \
+                or (current_board[6] == 0 and current_board[7] == mark and current_board[8] == mark) \
+                or (current_board[6] == mark and current_board[7] == mark and current_board[8] == 0):
+            value_mark2 += 1
+
+        # adding horizontal value_mark1
+        if (current_board[0] == mark and current_board[1] == 0 and current_board[2] == 0) \
+                or (current_board[0] == 0 and current_board[1] == mark and current_board[2] == 0) \
+                or (current_board[0] == 0 and current_board[1] == 0 and current_board[2] == mark):
+            value_mark1 += 1
+        if (current_board[3] == mark and current_board[4] == 0 and current_board[5] == 0) \
+                or (current_board[3] == 0 and current_board[4] == mark and current_board[5] == 0) \
+                or (current_board[3] == 0 and current_board[4] == 0 and current_board[5] == mark):
+            value_mark1 += 1
+        if (current_board[6] == mark and current_board[7] == 0 and current_board[8] == 0) \
+                or (current_board[6] == 0 and current_board[7] == mark and current_board[8] == 0) \
+                or (current_board[6] == 0 and current_board[7] == 0 and current_board[8] == mark):
+            value_mark1 += 1
+
+        # adding vertical value_mark2
+        if (current_board[0] == mark and current_board[3] == 0 and current_board[6] == mark) \
+                or (current_board[0] == 0 and current_board[3] == mark and current_board[6] == mark) \
+                or (current_board[0] == mark and current_board[3] == mark and current_board[6] == 0):
+            value_mark2 += 1
+        if (current_board[1] == mark and current_board[4] == 0 and current_board[7] == mark)\
+                or (current_board[1] == 0 and current_board[4] == mark and current_board[7] == mark) \
+                or (current_board[1] == mark and current_board[4] == mark and current_board[7] == 0):
+            value_mark2 += 1
+        if (current_board[2] == mark and current_board[5] == 0 and current_board[8] == mark)\
+                or (current_board[2] == 0 and current_board[5] == mark and current_board[8] == mark) \
+                or (current_board[2] == mark and current_board[5] == mark and current_board[8] == 0):
+            value_mark2 += 1
+
+        # adding vertical value_mark1
+        if (current_board[0] == mark and current_board[3] == 0 and current_board[6] == 0) \
+                or (current_board[0] == 0 and current_board[3] == mark and current_board[6] == 0) \
+                or (current_board[0] == 0 and current_board[3] == 0 and current_board[6] == mark):
+            value_mark1 += 1
+        if (current_board[1] == mark and current_board[4] == 0 and current_board[7] == 0) \
+                or (current_board[1] == 0 and current_board[4] == mark and current_board[7] == 0) \
+                or (current_board[1] == 0 and current_board[4] == 0 and current_board[7] == mark):
+            value_mark1 += 1
+        if (current_board[2] == mark and current_board[5] == 0 and current_board[8] == 0) \
+                or (current_board[2] == 0 and current_board[5] == mark and current_board[8] == 0)\
+                or (current_board[2] == 0 and current_board[5] == 0 and current_board[8] == mark):
+            value_mark1 += 1
+
+        # adding diagonal value_mark2
+        if (current_board[0] == mark and current_board[4] == 0 and current_board[8] == mark) \
+                or (current_board[0] == 0 and current_board[4] == mark and current_board[8] == mark) \
+                or (current_board[0] == mark and current_board[4] == mark and current_board[8] == 0):
+            value_mark2 += 1
+        if (current_board[6] == mark and current_board[4] == 0 and current_board[2] == mark) \
+                or (current_board[6] == 0 and current_board[4] == mark and current_board[2] == mark) \
+                or (current_board[6] == mark and current_board[4] == mark and current_board[2] == 0):
+            value_mark2 += 1
+
+        # adding diagonal value_mark1
+        if (current_board[0] == mark and current_board[4] == 0 and current_board[8] == 0) \
+                or (current_board[0] == 0 and current_board[4] == mark and current_board[8] == 0) \
+                or (current_board[0] == 0 and current_board[4] == 0 and current_board[8] == mark):
+            value_mark1 += 1
+        if (current_board[6] == mark and current_board[4] == 0 and current_board[2] == 0)\
+                or (current_board[6] == 0 and current_board[4] == mark and current_board[2] == 0) \
+                or (current_board[6] == 0 and current_board[4] == 0 and current_board[2] == mark):
+            value_mark1 += 1
+        # END: MARK
+
+        # START: OTHER MARK
+        mark = self.other_mark(mark)
+        # adding horizontal value_othermark2
+        if (current_board[0] == mark and current_board[1] == 0 and current_board[2] == mark) \
+                or (current_board[0] == 0 and current_board[1] == mark and current_board[2] == mark) \
+                or (current_board[0] == mark and current_board[1] == mark and current_board[2] == 0):
+            value_othermark2 += 1
+        if (current_board[3] == mark and current_board[4] == 0 and current_board[5] == mark) \
+                or (current_board[3] == 0 and current_board[4] == mark and current_board[5] == mark) \
+                or (current_board[3] == mark and current_board[4] == mark and current_board[5] == 0):
+            value_othermark2 += 1
+        if (current_board[6] == mark and current_board[7] == 0 and current_board[8] == mark) \
+                or (current_board[6] == 0 and current_board[7] == mark and current_board[8] == mark) \
+                or (current_board[6] == mark and current_board[7] == mark and current_board[8] == 0):
+            value_othermark2 += 1
+
+        # adding horizontal value_othermark1
+        if (current_board[0] == mark and current_board[1] == 0 and current_board[2] == 0) \
+                or (current_board[0] == 0 and current_board[1] == mark and current_board[2] == 0) \
+                or (current_board[0] == 0 and current_board[1] == 0 and current_board[2] == mark):
+            value_othermark1 += 1
+        if (current_board[3] == mark and current_board[4] == 0 and current_board[5] == 0) \
+                or (current_board[3] == 0 and current_board[4] == mark and current_board[5] == 0) \
+                or (current_board[3] == 0 and current_board[4] == 0 and current_board[5] == mark):
+            value_othermark1 += 1
+        if (current_board[6] == mark and current_board[7] == 0 and current_board[8] == 0) \
+                or (current_board[6] == 0 and current_board[7] == mark and current_board[8] == 0) \
+                or (current_board[6] == 0 and current_board[7] == 0 and current_board[8] == mark):
+            value_othermark1 += 1
+
+        # adding vertical value_othermark2
+        if (current_board[0] == mark and current_board[3] == 0 and current_board[6] == mark) \
+                or (current_board[0] == 0 and current_board[3] == mark and current_board[6] == mark) \
+                or (current_board[0] == mark and current_board[3] == mark and current_board[6] == 0):
+            value_othermark2 += 1
+        if (current_board[1] == mark and current_board[4] == 0 and current_board[7] == mark) \
+                or (current_board[1] == 0 and current_board[4] == mark and current_board[7] == mark) \
+                or (current_board[1] == mark and current_board[4] == mark and current_board[7] == 0):
+            value_othermark2 += 1
+        if (current_board[2] == mark and current_board[5] == 0 and current_board[8] == mark) \
+                or (current_board[2] == 0 and current_board[5] == mark and current_board[8] == mark) \
+                or (current_board[2] == mark and current_board[5] == mark and current_board[8] == 0):
+            value_othermark2 += 1
+
+        # adding vertical value_othermark1
+        if (current_board[0] == mark and current_board[3] == 0 and current_board[6] == 0) \
+                or (current_board[0] == 0 and current_board[3] == mark and current_board[6] == 0) \
+                or (current_board[0] == 0 and current_board[3] == 0 and current_board[6] == mark):
+            value_othermark1 += 1
+        if (current_board[1] == mark and current_board[4] == 0 and current_board[7] == 0) \
+                or (current_board[1] == 0 and current_board[4] == mark and current_board[7] == 0) \
+                or (current_board[1] == 0 and current_board[4] == 0 and current_board[7] == mark):
+            value_othermark1 += 1
+        if (current_board[2] == mark and current_board[5] == 0 and current_board[8] == 0) \
+                or (current_board[2] == 0 and current_board[5] == mark and current_board[8] == 0) \
+                or (current_board[2] == 0 and current_board[5] == 0 and current_board[8] == mark):
+            value_othermark1 += 1
+
+        # adding diagonal value_othermark2
+        if (current_board[0] == mark and current_board[4] == 0 and current_board[8] == mark) \
+                or (current_board[0] == 0 and current_board[4] == mark and current_board[8] == mark) \
+                or (current_board[0] == mark and current_board[4] == mark and current_board[8] == 0):
+            value_othermark2 += 1
+        if (current_board[6] == mark and current_board[4] == 0 and current_board[2] == mark) \
+                or (current_board[6] == 0 and current_board[4] == mark and current_board[2] == mark) \
+                or (current_board[6] == mark and current_board[4] == mark and current_board[2] == 0):
+            value_othermark2 += 1
+
+        # adding diagonal value_othermark1
+        if (current_board[0] == mark and current_board[4] == 0 and current_board[8] == 0) \
+                or (current_board[0] == 0 and current_board[4] == mark and current_board[8] == 0) \
+                or (current_board[0] == 0 and current_board[4] == 0 and current_board[8] == mark):
+            value_othermark1 += 1
+        if (current_board[6] == mark and current_board[4] == 0 and current_board[2] == 0) \
+                or (current_board[6] == 0 and current_board[4] == mark and current_board[2] == 0) \
+                or (current_board[6] == 0 and current_board[4] == 0 and current_board[2] == mark):
+            value_othermark1 += 1
+        # END: OTHERMARK
+
+        # heuristic formula: in favour of "mark"
+        return (3 * value_mark2 + value_mark1) - (3 * value_othermark2 + value_othermark1)
