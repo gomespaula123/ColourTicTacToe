@@ -1,94 +1,82 @@
-import sys
-import pygame
-import cv2
+
 
 class BoardAnalysis:
 
     def __init__(self, game):
-        # self.boardvisual = boardvisual
         self.game = game
+        # self.boardvisual = boardvisual
         # self.humanplayer = humanplayer  # test
         # self.boardvisual = boardvisual
 
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
 
-    def get_positions(self):
-        # self.boardvisual.positions_status[6] = 2
-        print(*self.boardvisual.positions_status)
-        # self.boardvisual.getcolour_images()
+    # def get_positions(self):
+    #     # self.boardvisual.positions_status[6] = 2
+    #     print(*self.boardvisual.positions_status)
+    #     # self.boardvisual.getcolour_images()
 
-    def check_lose(self):
-        lose = False
-        # check horizontal first
-        if ((self.boardvisual.positions_status[0] == 1 and self.boardvisual.positions_status[1] == 1 and
-             self.boardvisual.positions_status[2] == 1)
-            or (self.boardvisual.positions_status[3] == 1 and self.boardvisual.positions_status[4] == 1 and
-                self.boardvisual.positions_status[5] == 1)
-            or (self.boardvisual.positions_status[6] == 1 and self.boardvisual.positions_status[7] == 1 and
-                self.boardvisual.positions_status[8] == 1)
-            # check vertical
-            or (self.boardvisual.positions_status[0] == 1 and self.boardvisual.positions_status[3] == 1 and
-                self.boardvisual.positions_status[6] == 1)
-            or (self.boardvisual.positions_status[1] == 1 and self.boardvisual.positions_status[4] == 1 and
-                self.boardvisual.positions_status[7] == 1)
-            or (self.boardvisual.positions_status[2] == 1 and self.boardvisual.positions_status[5] == 1 and
-                self.boardvisual.positions_status[8] == 1)
-            # check diagonal
-            or (self.boardvisual.positions_status[0] == 1 and self.boardvisual.positions_status[4] == 1 and
-                self.boardvisual.positions_status[8] == 1)
-            or (self.boardvisual.positions_status[6] == 1 and self.boardvisual.positions_status[4] == 1 and
-                self.boardvisual.positions_status[2] == 1)):
-            lose = True
-            print(lose)
-            print("you lost")
-            # self.quit_game()
-
-    def check_win(self):
+    def check_win_circle(self, game_being_analysed):
         win = False
         # check horizontal first
-        if ((self.boardvisual.positions_status[0] == 2 and self.boardvisual.positions_status[1] == 2 and
-             self.boardvisual.positions_status[2] == 2)
-            or (self.boardvisual.positions_status[3] == 2 and self.boardvisual.positions_status[4] == 2 and
-                self.boardvisual.positions_status[5] == 2)
-            or (self.boardvisual.positions_status[6] == 2 and self.boardvisual.positions_status[7] == 2 and
-                self.boardvisual.positions_status[8] == 2)
+        if ((game_being_analysed[0] == 1 and game_being_analysed[1] == 1 and
+             game_being_analysed[2] == 1)
+            or (game_being_analysed[3] == 1 and game_being_analysed[4] == 1 and
+                game_being_analysed[5] == 1)
+            or (game_being_analysed[6] == 1 and game_being_analysed[7] == 1 and
+                game_being_analysed[8] == 1)
             # check vertical
-            or (self.boardvisual.positions_status[0] == 2 and self.boardvisual.positions_status[3] == 2 and
-                self.boardvisual.positions_status[6] == 2)
-            or (self.boardvisual.positions_status[1] == 2 and self.boardvisual.positions_status[4] == 2 and
-                self.boardvisual.positions_status[7] == 2)
-            or (self.boardvisual.positions_status[2] == 2 and self.boardvisual.positions_status[5] == 2 and
-                self.boardvisual.positions_status[8] == 2)
+            or (game_being_analysed[0] == 1 and game_being_analysed[3] == 1 and
+                game_being_analysed[6] == 1)
+            or (game_being_analysed[1] == 1 and game_being_analysed[4] == 1 and
+                game_being_analysed[7] == 1)
+            or (game_being_analysed[2] == 1 and game_being_analysed[5] == 1 and
+                game_being_analysed[8] == 1)
             # check diagonal
-            or (self.boardvisual.positions_status[0] == 2 and self.boardvisual.positions_status[4] == 2 and
-                self.boardvisual.positions_status[8] == 2)
-            or (self.boardvisual.positions_status[6] == 2 and self.boardvisual.positions_status[4] == 2 and
-                self.boardvisual.positions_status[2] == 2)):
+            or (game_being_analysed[0] == 1 and game_being_analysed[4] == 1 and
+                game_being_analysed[8] == 1)
+            or (game_being_analysed[6] == 1 and game_being_analysed[4] == 1 and
+                game_being_analysed[2] == 1)):
             win = True
-            print(win)
-            print("you won")
+            # print(lose)
+            # print("you lost")
             # self.quit_game()
+        return win
 
-    def check_full(self):
+    def check_win_square(self, game_being_analysed):
+        win = False
+        # check horizontal first
+        if ((game_being_analysed[0] == 2 and game_being_analysed[1] == 2 and
+             game_being_analysed[2] == 2)
+            or (game_being_analysed[3] == 2 and game_being_analysed[4] == 2 and
+                game_being_analysed[5] == 2)
+            or (game_being_analysed[6] == 2 and game_being_analysed[7] == 2 and
+                game_being_analysed[8] == 2)
+            # check vertical
+            or (game_being_analysed[0] == 2 and game_being_analysed[3] == 2 and
+                game_being_analysed[6] == 2)
+            or (game_being_analysed[1] == 2 and game_being_analysed[4] == 2 and
+                game_being_analysed[7] == 2)
+            or (game_being_analysed[2] == 2 and game_being_analysed[5] == 2 and
+                game_being_analysed[8] == 2)
+            # check diagonal
+            or (game_being_analysed[0] == 2 and game_being_analysed[4] == 2 and
+                game_being_analysed[8] == 2)
+            or (game_being_analysed[6] == 2 and game_being_analysed[4] == 2 and
+                game_being_analysed[2] == 2)):
+            win = True
+            # print(win)
+            # print("you won")
+        return win
+
+    def check_full(self, game_being_analysed):
         full = False
-        if 0 not in self.boardvisual.positions_status:
+        if 0 not in game_being_analysed:
             full = True
-            print(full)
-            print("board is full")
+        return full
 
-
-
-    def quit_game(self):
-        # self.video_capture.release()
-        cv2.destroyAllWindows()
-        pygame.quit()
-        sys.exit()
-
-
-
-
-    # def test_function1(self):
-        # print("test_function1")
-        # self.humanplayer.webcam_setup()
-
+    def win_questionmark(self, mark, this_game_here):
+        if mark == 1:
+            return self.check_win_circle(this_game_here)
+        elif mark == 2:
+            return self.check_win_square(this_game_here)

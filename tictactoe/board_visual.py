@@ -1,7 +1,8 @@
 # visual for board
 import pygame
-from PIL import Image, ImageDraw
 import random
+import sys
+import cv2
 
 
 class BoardVisual:
@@ -9,16 +10,20 @@ class BoardVisual:
     def __init__(self, game, humanplayer, boardanalysis, aiplayer):
         self.game = game
         self.humanplayer = humanplayer  # test
-        self.aiplayer = aiplayer
         self.boardanalysis = boardanalysis
-        self.positions_status = [0, 0, 1, 0, 0, 0, 0, 0, 1]
+        self.aiplayer = aiplayer
+        self.colourimages_list = None
+
+        # Test the display of plays
+        self.positions_status = [0, 0, 0, 0, 0, 0, 0, 0, 1]
+        self.ai_turn = None
 
 
     def create_window(self, screen):
         background_colour = (255, 255, 255)
         self.screen = screen
         screen.fill(background_colour)
-        self.getcolour_images()
+        self.play_round()
 
         pygame.display.flip()
         running = True
@@ -27,8 +32,33 @@ class BoardVisual:
                 if event.type == pygame.QUIT:
                     running = False
 
-    def getcolour_images(self):
-        # print("it does the thing now food")
+    def play_round(self):
+        if self.ai_turn:
+            self.aiplayer.do_move()
+            self.draw_new_board()
+        else:
+            self.draw_new_board()
+        if self.boardanalysis.check_win_circle(self.positions_status):
+            print("GAME OVER")
+            self.quit_game()
+        if self.boardanalysis.check_win_square(self.positions_status):
+            print("CONGRATULATIONS: YOU WIN")
+            self.quit_game()
+        if self.boardanalysis.check_full(self.positions_status):
+            self.quit_game()
+
+        print("waiting on your move")
+        self.humanplayer.human_move()
+        print("got here")
+
+        # send the list of positions status to board analysis
+
+        # self.boardanalysis.test_function1()
+
+    def change_positions(self):
+        random.shuffle(self.colourimages_list)
+
+    def draw_new_board(self):
         # loading all the images:
         black_im = pygame.image.load('Black.png')
         blue_im = pygame.image.load('Blue.png')
@@ -42,18 +72,18 @@ class BoardVisual:
         # emptysqr_im = pygame.image.load('emptybox.png')
         c_mark = pygame.image.load('Circle.png')
         s_mark = pygame.image.load('Square.png')
-        self.colourimages_list = [black_im, blue_im, cyan_im, green_im, magenta_im, red_im, white_im, yellow_im]
 
-        positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250), (450, 250), (50, 450), (250, 450), (450, 450)]
-        # random.shuffle(self.colourimages_list)
+        self.colourimages_list = [(black_im, 0), (blue_im, 1), (cyan_im, 2), (green_im, 3),
+                                  (magenta_im, 4), (red_im, 5), (white_im, 6), (yellow_im, 7)]
+
+        positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250),
+                          (450, 250), (50, 450), (250, 450), (450, 450)]
+
         self.change_positions()
-        self.boardanalysis.get_positions()
-        # self.boardanalysis.check_lose()
-        # self.boardanalysis.check_win()
 
         for i in range(0, 9):
             if self.positions_status[i] == 0:
-                self.screen.blit(self.colourimages_list[i], positions_list[i])
+                self.screen.blit(self.colourimages_list[i][0], positions_list[i])
             elif self.positions_status[i] == 1:  # draw circle
                 self.screen.blit(c_mark, positions_list[i])
             elif self.positions_status[i] == 2:  # draw square
@@ -61,22 +91,9 @@ class BoardVisual:
 
         self.screen.blit(board_im, (45, 50))
         pygame.display.update()
-        self.boardanalysis.check_lose()
-        self.boardanalysis.check_win()
-        self.boardanalysis.check_full()
-        # self.boardanalysis.test_function1()
-        # self.aiplayer.testai_playerfunction()
-        # self.aiplayer.get_possible_moves(self.positions_status)
-        # self.aiplayer.calculate_next_move1(self.positions_status)
-        # self.aiplayer.do_move(self.positions_status)
-        self.humanplayer.webcam_setup()
-        # send the list of positions status to board analysis
 
-        # self.boardanalysis.test_function1()
-
-    def change_positions(self):
-        random.shuffle(self.colourimages_list)
-
-
-
-
+    def quit_game(self):
+        cv2.VideoCapture.release(self.humanplayer.video_capture)
+        cv2.destroyAllWindows()
+        pygame.quit()
+        exit()
