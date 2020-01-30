@@ -11,6 +11,7 @@ class BoardVisual:
         self.humanplayer = humanplayer  # test
         self.boardanalysis = boardanalysis
         self.aiplayer = aiplayer
+        self.colourimages_list = None
 
         # Test the display of plays
         self.positions_status = [0, 0, 0, 0, 0, 0, 0, 0, 1]
@@ -33,17 +34,15 @@ class BoardVisual:
     def play_round(self):
         self.draw_new_board()
 
-        self.boardanalysis.check_lose(self.positions_status)
-        self.boardanalysis.check_win(self.positions_status)
+        self.boardanalysis.check_win_circle(self.positions_status)
+        self.boardanalysis.check_win_square(self.positions_status)
 #        print(self.ai_turn)
         self.boardanalysis.check_full(self.positions_status)
-        # Check for changes in the board to move to the ai player
-        self.aiplayer.do_move()
+        if self.ai_turn:
+            self.aiplayer.do_move()
         print("waiting on your move")
         self.humanplayer.human_move()
         print("got here")
-
-
 
         # send the list of positions status to board analysis
 
@@ -66,16 +65,14 @@ class BoardVisual:
         # emptysqr_im = pygame.image.load('emptybox.png')
         c_mark = pygame.image.load('Circle.png')
         s_mark = pygame.image.load('Square.png')
+
         self.colourimages_list = [(black_im, 0), (blue_im, 1), (cyan_im, 2), (green_im, 3),
                                   (magenta_im, 4), (red_im, 5), (white_im, 6), (yellow_im, 7)]
 
         positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250),
                           (450, 250), (50, 450), (250, 450), (450, 450)]
-        # random.shuffle(self.colourimages_list)
+
         self.change_positions()
-        self.boardanalysis.get_positions()
-        # self.boardanalysis.check_lose()
-        # self.boardanalysis.check_win()
 
         for i in range(0, 9):
             if self.positions_status[i] == 0:
@@ -87,5 +84,3 @@ class BoardVisual:
 
         self.screen.blit(board_im, (45, 50))
         pygame.display.update()
-
-

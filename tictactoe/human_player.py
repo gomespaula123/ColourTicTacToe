@@ -44,10 +44,8 @@ class HumanPlayer:
 
     def human_move(self):
         while True:  # Officially the game loop
-            print(self.timer_counter)
             self.timer_counter -= 1
             if self.timer_counter < 1:
-                print("boom!")
                 self.boardvisual.draw_new_board()
                 self.timer_counter = self.timer_counter_magigy
 
@@ -73,7 +71,6 @@ class HumanPlayer:
                     print("YELLOW!")
                     for place_in_color_list in range(0, 8):
                         if self.boardvisual.colourimages_list[place_in_color_list][1] == 7:  # Looks for the yellow tag
-                            print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
@@ -97,7 +94,6 @@ class HumanPlayer:
                     print("GREEN!")
                     for place_in_color_list in range(0, 8):
                         if self.boardvisual.colourimages_list[place_in_color_list][1] == 3:  # Looks for the green tag
-                            print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
@@ -112,8 +108,7 @@ class HumanPlayer:
                 if self.spot_counter > self.intensity or k == ord('a'):
                     print("CYAN!")
                     for place_in_color_list in range(0, 8):
-                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 2: # Looks for the cyan tag
-                            print(self.boardvisual.positions_status[place_in_color_list])
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 2:  # Looks for the cyan tag
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
@@ -129,7 +124,6 @@ class HumanPlayer:
                     print("BLUE!")
                     for place_in_color_list in range(0, 8):
                         if self.boardvisual.colourimages_list[place_in_color_list][1] == 1:  # Looks for the blue tag
-                            print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
@@ -145,7 +139,6 @@ class HumanPlayer:
                     print("RED!")
                     for place_in_color_list in range(0, 8):
                         if self.boardvisual.colourimages_list[place_in_color_list][1] == 5:  # Looks for the red tag
-                            print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
@@ -161,7 +154,6 @@ class HumanPlayer:
                     print("MAGENTA!")
                     for place_in_color_list in range(0, 8):
                         if self.boardvisual.colourimages_list[place_in_color_list][1] == 4:  # Looks for the magenta tag
-                            print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
@@ -177,7 +169,6 @@ class HumanPlayer:
                     print("BLACK!")
                     for place_in_color_list in range(0, 8):
                         if self.boardvisual.colourimages_list[place_in_color_list][1] == 0:  # Looks for the black tag
-                            print(self.boardvisual.positions_status[place_in_color_list])
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True

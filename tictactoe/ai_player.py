@@ -10,23 +10,26 @@ class AIPlayer:
         self.memo = dict()
         self.counter = 0
         self.boardanalysis = boardanalysis
+        self.maxdepth = 10
 
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
 
     def do_move(self):
+        print(self.boardvisual.positions_status)
         self.boardvisual.positions_status[self.calculate_next_move(self.boardvisual.positions_status)] = self.mark
+        print(self.boardvisual.positions_status)
 
     def calculate_next_move(self, current_board):
         # current_board = self.boardvisual.positions_status
         score_move_pairs = []
         for next_move in self.get_possible_moves(current_board):
-            next_score = self.min_max(current_board, next_move, self.mark)
+            next_score = self.min_max(current_board, next_move, self.mark, 0, self.maxdepth)
             score_move_pairs.append((next_score, next_move))
 
-            # if there is no score/move pair, return 0
+            # if there is no score/move pair, return -1 (should give an error)
         if not score_move_pairs:
-            return 10
+            return -1
 
         # otherwise
         else:
@@ -56,7 +59,7 @@ class AIPlayer:
                 # return the move
                 return best_move'''
 
-    def min_max(self, current_board, move, mark):
+    def min_max(self, current_board, move, mark, depth, maxdepth):
         # depth = 8
 
         # the  next  board  is a (deep) copy of the  current  board
@@ -67,15 +70,17 @@ class AIPlayer:
         next_board[move] = mark
         # next_board.place_move(move, mark)
 
-        # check if the next board (next_board.board) is in the dictionary, if it is, use that value
-        if tuple(next_board) in self.memo:
-            return self.memo[(tuple(next_board))]
+        # # check if the next board (next_board.board) is in the dictionary, if it is, use that value
+        # if tuple(next_board) in self.memo:
+        #     return self.memo[(tuple(next_board))]
 
         # if it is a win  return  10 --> 100
-        if self.boardanalysis.check_win(next_board):
+        if self.boardanalysis.win_questionmark(mark, next_board):
+            print("some good")
             return 100
         # if the  board  is full  return 0
         if self.boardanalysis.check_full(next_board):
+            print("some meh")
             return 0
 
         # compute  the  minimum  score  of all  possible  moves
@@ -86,7 +91,7 @@ class AIPlayer:
                 score.append(self.get_heuristic_value(next_board, mark))  # as your opponent wants to minimize your score, add your scores to list based on heuristics
                 self.counter += 1
                 return min(score)  # picks the one where your score is lowest'''
-            score_value = self.max_min(next_board, possible_move, self.other_mark(mark))
+            score_value = self.max_min(next_board, possible_move, self.other_mark(mark), 0, self.maxdepth)
             score.append(score_value)
 
         # self.memo[(tuple(next_board))] = min(score)
@@ -99,7 +104,7 @@ class AIPlayer:
             return 0
         return min(score)
 
-    def max_min(self, current_board, move, mark):
+    def max_min(self, current_board, move, mark, depth, maxdepth):
         # depth = 8
         # the next_board is a(deep) copy of the current_board
         next_board = current_board.copy()
@@ -113,10 +118,12 @@ class AIPlayer:
             return self.memo[(tuple(next_board))]
 
         # if it is a win  return  -10 --> -100
-        if self.boardanalysis.check_lose(next_board):
+        if self.boardanalysis.win_questionmark(mark, next_board):
+            print("some bad")
             return -100
         # if the  board  is full  return 0
         if self.boardanalysis.check_full(next_board):
+            print("some meh")
             return 0
 
         # compute  the  maximum  score  of all  possible  moves
@@ -127,7 +134,7 @@ class AIPlayer:
                 score.append(-1 * (self.get_heuristic_value(next_board, mark)))  # add the scores of the possible moves of your opponent
                 self.counter += 1
                 return max(score)'''
-            score_value = self.min_max(next_board, possible_move, self.other_mark(mark))
+            score_value = self.min_max(next_board, possible_move, self.other_mark(mark), 0, self.maxdepth)
             score.append(score_value)
 
         # self.memo[(tuple(next_board))] = max(score)
@@ -140,11 +147,6 @@ class AIPlayer:
             return 0
         return max(score)
 
-    '''def other_mark(self, mark):
-        if mark == "X":
-            return "O"
-        else:
-            return "X"'''
     def other_mark(self, mark):
         if mark == 2:
             return 1
@@ -160,7 +162,7 @@ class AIPlayer:
                 # print(i)
         # for self.boardvisual.positions_status in possible_moves:
                 # print i
-        print(possible_moves)
+        # print(possible_moves)
         return possible_moves
 
         ''' def place_move(self, next_board, move, mark):
