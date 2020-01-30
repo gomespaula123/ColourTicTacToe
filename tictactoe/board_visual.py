@@ -1,7 +1,8 @@
 # visual for board
 import pygame
-from PIL import Image, ImageDraw
 import random
+import sys
+import cv2
 
 
 class BoardVisual:
@@ -32,14 +33,20 @@ class BoardVisual:
                     running = False
 
     def play_round(self):
-        self.draw_new_board()
-
-        self.boardanalysis.check_win_circle(self.positions_status)
-        self.boardanalysis.check_win_square(self.positions_status)
-#        print(self.ai_turn)
-        self.boardanalysis.check_full(self.positions_status)
         if self.ai_turn:
             self.aiplayer.do_move()
+            self.draw_new_board()
+        else:
+            self.draw_new_board()
+        if self.boardanalysis.check_win_circle(self.positions_status):
+            print("GAME OVER")
+            self.quit_game()
+        if self.boardanalysis.check_win_square(self.positions_status):
+            print("CONGRATULATIONS: YOU WIN")
+            self.quit_game()
+        if self.boardanalysis.check_full(self.positions_status):
+            self.quit_game()
+
         print("waiting on your move")
         self.humanplayer.human_move()
         print("got here")
@@ -84,3 +91,9 @@ class BoardVisual:
 
         self.screen.blit(board_im, (45, 50))
         pygame.display.update()
+
+    def quit_game(self):
+        cv2.VideoCapture.release(self.humanplayer.video_capture)
+        cv2.destroyAllWindows()
+        pygame.quit()
+        exit()

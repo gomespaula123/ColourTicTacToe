@@ -10,15 +10,13 @@ class AIPlayer:
         self.memo = dict()
         self.counter = 0
         self.boardanalysis = boardanalysis
-        self.maxdepth = 3
+        self.maxdepth = 1
 
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
 
     def do_move(self):
-        print(self.boardvisual.positions_status)
         self.boardvisual.positions_status[self.calculate_next_move(self.boardvisual.positions_status)] = self.mark
-        print(self.boardvisual.positions_status)
 
     def calculate_next_move(self, current_board):
         # current_board = self.boardvisual.positions_status
@@ -89,8 +87,7 @@ class AIPlayer:
         for possible_move in self.get_possible_moves(next_board):
             depth += 1
             if depth >= self.maxdepth:
-                score.append(self.get_heuristic_value(next_board,
-                                                      mark))  # as your opponent wants to minimize your score, add your scores to list based on heuristics
+                score.append(self.get_heuristic_value(next_board, mark))  # as your opponent wants to minimize your score, add your scores to list based on heuristics
                 self.counter += 1
                 return min(score)  # picks the one where your score is lowest
             score_value = self.max_min(next_board, possible_move, self.other_mark(mark), depth)
@@ -132,9 +129,8 @@ class AIPlayer:
         score = []
         for possible_move in self.get_possible_moves(next_board):
             depth += 1
-            if self.maxdepth >= -1:
-                score.append(-1 * (self.get_heuristic_value(next_board,
-                                                            mark)))  # add the scores of the possible moves of your opponent
+            if depth >= self.maxdepth:
+                score.append(-1 * (self.get_heuristic_value(next_board,mark)))  # add the scores of the possible moves of your opponent
                 self.counter += 1
                 return max(score)
             score_value = self.min_max(next_board, possible_move, self.other_mark(mark), depth)

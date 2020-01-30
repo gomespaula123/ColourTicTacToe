@@ -1,6 +1,4 @@
-import sys
-import pygame
-import cv2
+
 
 class BoardAnalysis:
 
@@ -82,16 +80,3 @@ class BoardAnalysis:
             return self.check_win_circle(this_game_here)
         elif mark == 2:
             return self.check_win_square(this_game_here)
-    def quit_game(self):
-        # self.video_capture.release()
-        cv2.destroyAllWindows()
-        pygame.quit()
-        sys.exit()
-
-
-
-
-    # def test_function1(self):
-        # print("test_function1")
-        # self.humanplayer.webcam_setup()
-
