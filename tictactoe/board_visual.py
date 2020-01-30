@@ -1,7 +1,6 @@
 # visual for board
 import pygame
 import random
-import sys
 import cv2
 
 
@@ -34,7 +33,7 @@ class BoardVisual:
 
     def play_round(self):
         if self.ai_turn:
-            self.aiplayer.do_move()
+            # self.aiplayer.do_move()
             self.draw_new_board()
         else:
             self.draw_new_board()
@@ -49,11 +48,6 @@ class BoardVisual:
 
         print("waiting on your move")
         self.humanplayer.human_move()
-        print("got here")
-
-        # send the list of positions status to board analysis
-
-        # self.boardanalysis.test_function1()
 
     def change_positions(self):
         random.shuffle(self.colourimages_list)
