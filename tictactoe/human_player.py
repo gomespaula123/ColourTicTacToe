@@ -1,26 +1,20 @@
 import cv2
-# from tictactoe.board_visual import BoardVisual
-# from tictactoe.main import Game
-# from tictactoe import main
 import numpy as np
-    
 # reference the tutorial !!!!!!!!!!!!!!!!! https://towardsdatascience.com/https-medium-com-dilan-jay-face-detection-model-on-webcam-using-python-72b382699ee9
-
-# make that once a colour is detected, the webcam shuts down and the board gets updated
 
 
 class HumanPlayer:
 
     def __init__(self, game):
-        # print("what do I put here")
-        self.screen = None
+        # Inheritance of variables
         self.game = game
-        # self.boaranalysis = boardanalysis # test
-        # self.board_visual = BoardVisual(self.game)
-        # self.main = Game()
+
+        # Defining local variables
+        self.screen = None
+        self.boardvisual = None
         self.video_capture = cv2.VideoCapture(0)
 
-        # Initialize the variables used for the human interaction
+        # Initialize the variables used for the color detection
         self.black_found = False
         self.blue_found = False
         self.cyan_found = False
@@ -36,14 +30,17 @@ class HumanPlayer:
         self.spot_counter = 0
 
         # Time for the player to present the color that they want to play
-        self.timer_counter_magigy = 10  # No clue about the ratio of ticks per second doe...
+        self.timer_counter_magigy = 10  # No clue about the ratio of ticks per second though...
         self.timer_counter = self.timer_counter_magigy
 
+    # Inherent boardvisual as well
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
 
     def human_move(self):
-        while True:  # Officially the game loop
+        while True:  # Listening to the player
+
+            # Timer for the shuffling of the colors in the board
             self.timer_counter -= 1
             if self.timer_counter < 1:
                 self.boardvisual.draw_new_board()
@@ -53,7 +50,8 @@ class HumanPlayer:
             ret, frame = self.video_capture.read()
             self.look_for_colours(frame)
 
-            k = cv2.waitKey(100)
+            # Interupt shedule for the keyboard presses
+            k = cv2.waitKey(1)
 
             # Redundancy testing
             if not self.red_found and not self.green_found and not self.blue_found \
@@ -77,7 +75,7 @@ class HumanPlayer:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
                                 self.spot_counter = 0
-                                self.boardvisual.play_round()
+                                self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                             else:
                                 print("try another move")
                 elif not self.none_found:
@@ -89,7 +87,7 @@ class HumanPlayer:
                 if self.boardvisual.positions_status[1] == 0:
                     self.boardvisual.positions_status[1] = 2
                     self.boardvisual.ai_turn = True
-                    self.boardvisual.play_round()
+                    self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                 else:
                     print("try another move")
 
@@ -102,7 +100,7 @@ class HumanPlayer:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
                                 self.spot_counter = 0
-                                self.boardvisual.play_round()
+                                self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                             else:
                                 print("try another move")
                 elif not self.none_found:
@@ -119,7 +117,7 @@ class HumanPlayer:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
                                 self.spot_counter = 0
-                                self.boardvisual.play_round()
+                                self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                             else:
                                 print("try another move")
                 elif not self.none_found:
@@ -136,7 +134,7 @@ class HumanPlayer:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
                                 self.spot_counter = 0
-                                self.boardvisual.play_round()
+                                self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                             else:
                                 print("try another move")
                 elif not self.none_found:
@@ -153,7 +151,7 @@ class HumanPlayer:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
                                 self.spot_counter = 0
-                                self.boardvisual.play_round()
+                                self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                             else:
                                 print("try another move")
                 elif not self.none_found:
@@ -170,7 +168,7 @@ class HumanPlayer:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
                                 self.spot_counter = 0
-                                self.boardvisual.play_round()
+                                self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                             else:
                                 print("try another move")
                 elif not self.none_found:
@@ -187,7 +185,7 @@ class HumanPlayer:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
                                 self.spot_counter = 0
-                                self.boardvisual.play_round()
+                                self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                             else:
                                 print("try another move")
                 elif not self.none_found:
@@ -199,7 +197,7 @@ class HumanPlayer:
                 if self.boardvisual.positions_status[8] == 0:
                     self.boardvisual.positions_status[8] = 2
                     self.boardvisual.ai_turn = True
-                    self.boardvisual.play_round()
+                    self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
                 else:
                     print("try another move")
 
@@ -226,7 +224,7 @@ class HumanPlayer:
         lower_range = np.array([35, 35, 40])
         upper_range = np.array([80, 65, 80])
 
-        # Filter out from the capture the RED object
+        # Filter out from the capture the BLACK object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
 
         # Determine if there is indeed an object in the image
@@ -237,7 +235,7 @@ class HumanPlayer:
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
                     whiteness += 1
-        if whiteness >= 1500:
+        if whiteness >= 1500:  # Sensitivity to color
             # Object confirmed
             self.black_found = True
             self.none_found = False
@@ -247,7 +245,7 @@ class HumanPlayer:
         lower_range = np.array([140, 80, 40])
         upper_range = np.array([170, 110, 80])
 
-        # Filter out from the capture the RED object
+        # Filter out from the capture the BLUE object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
 
         # Determine if there is indeed an object in the image
@@ -258,7 +256,7 @@ class HumanPlayer:
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
                     whiteness += 1
-        if whiteness >= 1500:
+        if whiteness >= 1500:  # Sensitivity to color
             # Object confirmed
             self.blue_found = True
             self.none_found = False
@@ -268,7 +266,7 @@ class HumanPlayer:
         lower_range = np.array([140, 80, 40])
         upper_range = np.array([170, 110, 80])
 
-        # Filter out from the capture the RED object
+        # Filter out from the capture the CYAN object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
 
         # Determine if there is indeed an object in the image
@@ -279,7 +277,7 @@ class HumanPlayer:
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
                     whiteness += 1
-        if whiteness >= 1500:
+        if whiteness >= 1500:  # Sensitivity to color
             # Object confirmed
             self.cyan_found = True
             self.none_found = False
@@ -289,7 +287,7 @@ class HumanPlayer:
         lower_range = np.array([90, 90, 50])
         upper_range = np.array([120, 120, 80])
 
-        # Filter out from the capture the RED object
+        # Filter out from the capture the GREEN object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
 
         # Determine if there is indeed an object in the image
@@ -300,7 +298,7 @@ class HumanPlayer:
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
                     whiteness += 1
-        if whiteness >= 1500:
+        if whiteness >= 1500:  # Sensitivity to color
             # Object confirmed
             self.green_found = True
             self.none_found = False
@@ -310,7 +308,7 @@ class HumanPlayer:
         lower_range = np.array([90, 65, 140])
         upper_range = np.array([130, 95, 175])
 
-        # Filter out from the capture the RED object
+        # Filter out from the capture the MAGENTA object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
 
         # Determine if there is indeed an object in the image
@@ -321,7 +319,7 @@ class HumanPlayer:
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
                     whiteness += 1
-        if whiteness >= 1500:
+        if whiteness >= 1500:  # Sensitivity to color
             # Object confirmed
             self.magenta_found = True
             self.none_found = False
@@ -342,7 +340,7 @@ class HumanPlayer:
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
                     whiteness += 1
-        if whiteness >= 1500:
+        if whiteness >= 1500:  # Sensitivity to color
             # Object confirmed
             self.red_found = True
             self.none_found = False
@@ -352,7 +350,7 @@ class HumanPlayer:
         lower_range = np.array([85, 120, 125])
         upper_range = np.array([120, 140, 150])
 
-        # Filter out from the capture the RED object
+        # Filter out from the capture the YELLOW object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
 
         # Determine if there is indeed an object in the image
@@ -363,7 +361,7 @@ class HumanPlayer:
             for j in range(0, width - 1, 4):
                 if paper_colour_tag[i, j] > 200:
                     whiteness += 1
-        if whiteness >= 1500:
+        if whiteness >= 1500:  # Sensitivity to color
             # Object confirmed
             self.yellow_found = True
             self.none_found = False

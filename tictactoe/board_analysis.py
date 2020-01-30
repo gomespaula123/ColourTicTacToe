@@ -3,18 +3,15 @@
 class BoardAnalysis:
 
     def __init__(self, game):
+        # Inheritance of variables
         self.game = game
-        # self.boardvisual = boardvisual
-        # self.humanplayer = humanplayer  # test
-        # self.boardvisual = boardvisual
 
+        # Defining local variables
+        self.boardvisual = None
+
+    # Inherent boardvisual as well
     def set_board(self, boardvisual):
         self.boardvisual = boardvisual
-
-    # def get_positions(self):
-    #     # self.boardvisual.positions_status[6] = 2
-    #     print(*self.boardvisual.positions_status)
-    #     # self.boardvisual.getcolour_images()
 
     def check_win_circle(self, game_being_analysed):
         win = False
@@ -38,9 +35,6 @@ class BoardAnalysis:
             or (game_being_analysed[6] == 1 and game_being_analysed[4] == 1 and
                 game_being_analysed[2] == 1)):
             win = True
-            # print(lose)
-            # print("you lost")
-            # self.quit_game()
         return win
 
     def check_win_square(self, game_being_analysed):
@@ -65,8 +59,6 @@ class BoardAnalysis:
             or (game_being_analysed[6] == 2 and game_being_analysed[4] == 2 and
                 game_being_analysed[2] == 2)):
             win = True
-            # print(win)
-            # print("you won")
         return win
 
     def check_full(self, game_being_analysed):
