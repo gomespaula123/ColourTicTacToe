@@ -15,17 +15,17 @@ class HumanPlayer:
         self.video_capture = cv2.VideoCapture(0)
 
         # Initialize the variables used for the color detection
-        self.black_found = False
+        self.brown_found = False
         self.blue_found = False
         self.cyan_found = False
         self.green_found = False
         self.magenta_found = False
         self.red_found = False
         self.yellow_found = False
-        self.white_found = False
+        self.orange_found = False
 
         # For redundancy testing
-        self.intensity = 2  # Increases the amount of times that the test is ran
+        self.intensity = 4  # Increases the amount of times that the test is ran
         self.none_found = True
         self.spot_counter = 0
 
@@ -56,7 +56,7 @@ class HumanPlayer:
             # Redundancy testing
             if not self.red_found and not self.green_found and not self.blue_found \
                     and not self.cyan_found and not self.yellow_found and not self.magenta_found \
-                    and not self.black_found and not self.white_found:
+                    and not self.brown_found and not self.orange_found:
                 self.none_found = True
                 if self.spot_counter > 0:
                     print("neh...")
@@ -83,13 +83,22 @@ class HumanPlayer:
                     self.spot_counter += 1
                 self.yellow_found = False
 
-            elif k == ord('w'):  # Empty play (saved for white)
-                if self.boardvisual.positions_status[1] == 0:
-                    self.boardvisual.positions_status[1] = 2
-                    self.boardvisual.ai_turn = True
-                    self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
-                else:
-                    print("try another move")
+            elif self.orange_found or k == ord('w'):  # If orange played)
+                if self.spot_counter > self.intensity or k == ord('q'):
+                    print("ORANGE!")
+                    for place_in_color_list in range(0, 8):
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 6:  # Looks for the orange tag
+                            if self.boardvisual.positions_status[place_in_color_list] == 0:
+                                self.boardvisual.positions_status[place_in_color_list] = 2
+                                self.boardvisual.ai_turn = True
+                                self.spot_counter = 0
+                                self.boardvisual.play_round()  # Recurses into a new game round rendering the game loop
+                            else:
+                                print("try another move")
+                elif not self.none_found:
+                    print("orange?")
+                    self.spot_counter += 1
+                self.yellow_found = False
 
             elif self.green_found or k == ord('e'):  # If green played
                 if self.spot_counter > self.intensity or k == ord('e'):
@@ -176,11 +185,11 @@ class HumanPlayer:
                     self.spot_counter += 1
                 self.magenta_found = False
 
-            elif self.black_found or k == ord('x'):  # If black played
+            elif self.brown_found or k == ord('x'):  # If brown played
                 if self.spot_counter > self.intensity or k == ord('x'):
-                    print("BLACK!")
+                    print("brown!")
                     for place_in_color_list in range(0, 8):
-                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 0:  # Looks for the black tag
+                        if self.boardvisual.colourimages_list[place_in_color_list][1] == 0:  # Looks for the brown tag
                             if self.boardvisual.positions_status[place_in_color_list] == 0:
                                 self.boardvisual.positions_status[place_in_color_list] = 2
                                 self.boardvisual.ai_turn = True
@@ -189,9 +198,9 @@ class HumanPlayer:
                             else:
                                 print("try another move")
                 elif not self.none_found:
-                    print("black?")
+                    print("brown?")
                     self.spot_counter += 1
-                self.black_found = False
+                self.brown_found = False
 
             elif k == ord('c'):  # Empty, reserved for testing
                 if self.boardvisual.positions_status[8] == 0:
@@ -210,21 +219,21 @@ class HumanPlayer:
                 print(self.timer_counter_magigy)
 
     def look_for_colours(self, frame):
-        # self.black_questionmark(frame)
+        self.brown_questionmark(frame)
         self.blue_questionmark(frame)
         self.cyan_questionmark(frame)
         self.green_questionmark(frame)
         self.magenta_questionmark(frame)
         self.red_questionmark(frame)
         self.yellow_questionmark(frame)
-        # self.white_questionmark(frame)
+        self.orange_questionmark(frame)
 
-    def black_questionmark(self, frame):
-        # Determine the spotting range of BLACK
-        lower_range = np.array([35, 35, 40])
-        upper_range = np.array([80, 65, 80])
+    def brown_questionmark(self, frame):
+        # Determine the spotting range of brown
+        lower_range = np.array([50, 70, 120])
+        upper_range = np.array([100, 100, 140])
 
-        # Filter out from the capture the BLACK object
+        # Filter out from the capture the brown object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
 
         # Determine if there is indeed an object in the image
@@ -237,13 +246,13 @@ class HumanPlayer:
                     whiteness += 1
         if whiteness >= 1500:  # Sensitivity to color
             # Object confirmed
-            self.black_found = True
+            self.brown_found = True
             self.none_found = False
 
     def blue_questionmark(self, frame):
         # Determine the spotting range of BLUE
-        lower_range = np.array([140, 80, 40])
-        upper_range = np.array([170, 110, 80])
+        lower_range = np.array([110, 50, 0])
+        upper_range = np.array([150, 70, 30])
 
         # Filter out from the capture the BLUE object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
@@ -263,8 +272,8 @@ class HumanPlayer:
 
     def cyan_questionmark(self, frame):
         # Determine the spotting range of CYAN
-        lower_range = np.array([140, 80, 40])
-        upper_range = np.array([170, 110, 80])
+        lower_range = np.array([70, 60, 10])
+        upper_range = np.array([100, 80, 50])
 
         # Filter out from the capture the CYAN object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
@@ -284,8 +293,8 @@ class HumanPlayer:
 
     def green_questionmark(self, frame):
         # Determine the spotting range of GREEN
-        lower_range = np.array([90, 90, 50])
-        upper_range = np.array([120, 120, 80])
+        lower_range = np.array([40, 60, 20])
+        upper_range = np.array([80, 90, 50])
 
         # Filter out from the capture the GREEN object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
@@ -305,8 +314,8 @@ class HumanPlayer:
 
     def magenta_questionmark(self, frame):
         # Determine the spotting range of MAGENTA
-        lower_range = np.array([90, 65, 140])
-        upper_range = np.array([130, 95, 175])
+        lower_range = np.array([70, 60, 140])
+        upper_range = np.array([100, 90, 160])
 
         # Filter out from the capture the MAGENTA object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
@@ -326,8 +335,8 @@ class HumanPlayer:
 
     def red_questionmark(self, frame):
         # Determine the spotting range of RED
-        lower_range = np.array([20, 40, 140])
-        upper_range = np.array([50, 70, 160])
+        lower_range = np.array([20, 30, 110])
+        upper_range = np.array([60, 70, 140])
 
         # Filter out from the capture the RED object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
@@ -347,8 +356,8 @@ class HumanPlayer:
 
     def yellow_questionmark(self, frame):
         # Determine the spotting range of YELLOW
-        lower_range = np.array([85, 120, 125])
-        upper_range = np.array([120, 140, 150])
+        lower_range = np.array([40, 100, 100])
+        upper_range = np.array([70, 120, 120])
 
         # Filter out from the capture the YELLOW object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
@@ -366,5 +375,23 @@ class HumanPlayer:
             self.yellow_found = True
             self.none_found = False
 
-    def white_questionmark(self, frame):
-        print("?")
+    def orange_questionmark(self, frame):
+        # Determine the spotting range of ORANGE
+        lower_range = np.array([50, 80, 140])
+        upper_range = np.array([80, 100, 160])
+
+        # Filter out from the capture the YELLOW object
+        paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)
+
+        # Determine if there is indeed an object in the image
+        height = int(format(paper_colour_tag.shape[0]))
+        width = int(format(paper_colour_tag.shape[1]))
+        whiteness = 0
+        for i in range(0, height - 1, 4):
+            for j in range(0, width - 1, 4):
+                if paper_colour_tag[i, j] > 200:
+                    whiteness += 1
+        if whiteness >= 1500:  # Sensitivity to color
+            # Object confirmed
+            self.orange_found = True
+            self.none_found = False

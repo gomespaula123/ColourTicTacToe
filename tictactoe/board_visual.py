@@ -57,21 +57,20 @@ class BoardVisual:
     # Renders the current game board
     def draw_new_board(self):
         # loading all the images:
-        black_im = pygame.image.load('Black.png')
+        brown_im = pygame.image.load('Brown.png')
         blue_im = pygame.image.load('Blue.png')
         cyan_im = pygame.image.load('Cyan.png')
         green_im = pygame.image.load('Green.png')
         magenta_im = pygame.image.load('Magenta.png')
         red_im = pygame.image.load('Red.png')
-        white_im = pygame.image.load('White.png')
+        orange_im = pygame.image.load('Orange.png')
         yellow_im = pygame.image.load('Yellow.png')
         board_im = pygame.image.load('boardimage.png')
-        # emptysqr_im = pygame.image.load('emptybox.png')
         c_mark = pygame.image.load('Circle.png')
         s_mark = pygame.image.load('Square.png')
 
-        self.colourimages_list = [(black_im, 0), (blue_im, 1), (cyan_im, 2), (green_im, 3),
-                                  (magenta_im, 4), (red_im, 5), (white_im, 6), (yellow_im, 7)]
+        self.colourimages_list = [(brown_im, 0), (blue_im, 1), (cyan_im, 2), (green_im, 3),
+                                  (magenta_im, 4), (red_im, 5), (orange_im, 6), (yellow_im, 7)]
 
         positions_list = [(50, 50), (250, 50), (450, 50), (50, 250), (250, 250),
                           (450, 250), (50, 450), (250, 450), (450, 450)]
