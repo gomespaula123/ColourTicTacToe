@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-# reference the tutorial !!!!!!!!!!!!!!!!! https://towardsdatascience.com/https-medium-com-dilan-jay-face-detection-model-on-webcam-using-python-72b382699ee9
+# tutorial used to get started: https://towardsdatascience.com/https-medium-com-dilan-jay-face-detection-model-on-webcam-using-python-72b382699ee9
 
 
 class HumanPlayer:
@@ -25,12 +25,12 @@ class HumanPlayer:
         self.orange_found = False
 
         # For redundancy testing
-        self.intensity = 4  # Increases the amount of times that the test is ran
+        self.intensity = 3  # Increases the amount of times that the test is ran
         self.none_found = True
         self.spot_counter = 0
 
         # Time for the player to present the color that they want to play
-        self.timer_counter_magigy = 10  # No clue about the ratio of ticks per second though...
+        self.timer_counter_magigy = 10  # ..
         self.timer_counter = self.timer_counter_magigy
 
     # Inherent boardvisual as well
@@ -356,8 +356,8 @@ class HumanPlayer:
 
     def yellow_questionmark(self, frame):
         # Determine the spotting range of YELLOW
-        lower_range = np.array([40, 100, 100])
-        upper_range = np.array([70, 120, 120])
+        lower_range = np.array([50, 110, 110])
+        upper_range = np.array([80, 130, 130])
 
         # Filter out from the capture the YELLOW object
         paper_colour_tag = cv2.inRange(frame, lower_range, upper_range)

@@ -14,7 +14,7 @@ class AIPlayer:
 
         # Defining local constants
         self.mark = 1
-        self.maxdepth = 1
+        self.maxdepth = 2
 
     # Inherent boardvisual as well
     def set_board(self, boardvisual):
